@@ -43,7 +43,7 @@ const Hero: React.FC<HeroProps> = ({ language, setCurrentPage }) => {
   ];
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-[80vh] sm:min-h-screen overflow-hidden">
       {/* Background Slider */}
       <div className="absolute inset-0">
         {backgroundImages.map((url, index) => (
@@ -54,7 +54,7 @@ const Hero: React.FC<HeroProps> = ({ language, setCurrentPage }) => {
               backgroundImage: `url(${url})`
             }}
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent"></div>
           </div>
         ))}
 
@@ -63,12 +63,14 @@ const Hero: React.FC<HeroProps> = ({ language, setCurrentPage }) => {
           <button
             onClick={() => setCurrentImage((prev) => (prev - 1 + backgroundImages.length) % backgroundImages.length)}
             className="bg-black/40 hover:bg-black/60 text-white p-1 sm:p-2 rounded-full transition"
+            aria-label="Previous"
           >
             <ChevronLeft size={20} className="sm:size-6" />
           </button>
           <button
             onClick={() => setCurrentImage((prev) => (prev + 1) % backgroundImages.length)}
             className="bg-black/40 hover:bg-black/60 text-white p-1 sm:p-2 rounded-full transition"
+            aria-label="Next"
           >
             <ChevronRight size={20} className="sm:size-6" />
           </button>
@@ -76,8 +78,8 @@ const Hero: React.FC<HeroProps> = ({ language, setCurrentPage }) => {
       </div>
 
       {/* Hero Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
-        <div className="grid lg:grid-cols-2 gap-8 items-center min-h-[70vh]">
+      <div className="relative z-10 max-w-3xl sm:max-w-4xl lg:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+        <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 items-center min-h-[60vh]">
           {/* Left Content */}
           <div className={`text-white transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
             <h1 className="text-2xl sm:text-4xl lg:text-6xl font-bold leading-tight mb-4">
@@ -93,7 +95,7 @@ const Hero: React.FC<HeroProps> = ({ language, setCurrentPage }) => {
             {/* Features */}
             <div className="flex flex-wrap gap-3 mt-6">
               {features.map((feature, index) => (
-                <div key={index} className="flex items-center space-x-2 bg-white/10 backdrop-blur-sm px-3 py-2 rounded-lg">
+                <div key={index} className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-3 py-2 rounded-lg">
                   <feature.icon className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-300" />
                   <span className="text-xs sm:text-sm font-medium">{feature.text}</span>
                 </div>
@@ -104,7 +106,7 @@ const Hero: React.FC<HeroProps> = ({ language, setCurrentPage }) => {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce">
         <div className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-white/50 rounded-full flex justify-center">
           <div className="w-1 h-2 sm:h-3 bg-white/70 rounded-full mt-2 animate-pulse"></div>
         </div>
