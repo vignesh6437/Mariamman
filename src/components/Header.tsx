@@ -51,19 +51,18 @@ const RotatingBanner: React.FC<Props> = ({ language }) => {
   }, [allItems.length]);
 
   return (
-    <div className="relative h-6 w-[52rem] overflow-hidden mt-2">
-      <p
-        key={currentIndex}
-        className="absolute w-full text-amber-300 font-semibold tracking-wide animate-slide-from-top text-sm md:text-base"
-      >
-        {typeof allItems[currentIndex] === "string" ? (
-          <span>{allItems[currentIndex]}</span>
-        ) : (
-          allItems[currentIndex] // JSX contactInfo
-        )}
-      </p>
-    </div>
-  );
+<div className="relative h-6 w-full md:w-[52rem] overflow-hidden mt-2" style={{marginLeft: "2%"}}>
+  <p
+    key={currentIndex}
+    className="absolute w-full text-amber-300 font-semibold tracking-wide animate-slide-from-top text-xs sm:text-sm md:text-base"
+  >
+    {typeof allItems[currentIndex] === "string" ? (
+      <span>{allItems[currentIndex]}</span>
+    ) : (
+      allItems[currentIndex] // JSX contactInfo
+    )}
+  </p>
+</div>)
 };
 
 const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage, language, setLanguage }) => {
@@ -108,7 +107,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage, setCurrentPage, language, 
       <header className="bg-white shadow-lg sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3" style={{ marginLeft: '-48px' }}>
+            <div className="flex items-center space-x-3">
               <div className="w-12 h-12 bg-gradient-to-br from-red-600 to-yellow-500 rounded-full flex items-center justify-center">
                 <span className="text-white font-bold text-lg">ॐ</span>
               </div>

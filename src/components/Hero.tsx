@@ -104,7 +104,7 @@ const Hero: React.FC<HeroProps> = ({ language, setCurrentPage }) => {
                 <span className="text-sm font-medium">{language === 'english' ? 'Sacred Digital Portal' : 'புனித டிஜிட்டல் வாயில்'}</span>
               </div> */}
 
-              <h1 className="text-4xl lg:text-6xl font-bold leading-tight mb-6">
+              <h1 className="text-xl lg:text-6xl font-bold leading-tight mb-6">
                 {heroContent[language].welcome}
               </h1>
 
