@@ -38,7 +38,7 @@ const Hero: React.FC<HeroProps> = ({ language, setCurrentPage }) => {
 
   const heroContent = {
     english: {
-      welcome: 'Welcome to Sri\u00A0Selva\u00A0Mariamman\u00A0Temple',
+      welcome: 'Welcome to Sri\u00A0Selva\u00A0Mariamman Temple',
       subtitle: 'Experience Divine Blessings in the Digital Age',
       description: 'Join thousands of devotees in seeking the divine grace of Goddess Mariamman. Book online services, make donations, and stay connected with our sacred traditions.',
       buttons: ['Book Kavadi', 'Donate Online', 'View Events']
@@ -58,7 +58,7 @@ const Hero: React.FC<HeroProps> = ({ language, setCurrentPage }) => {
   ];
 
   return (
-    <div className="relative min-h-screen overflow-hidden">
+    <div className="relative min-h-screen overflow-hidden" style={{height: "200px"}}>
       {/* Background Slider */}
       <div className="absolute inset-0 overflow-hidden">
         {backgroundImages.map((url, index) => (
