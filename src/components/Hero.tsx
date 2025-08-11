@@ -68,7 +68,7 @@ const Hero: React.FC<HeroProps> = ({ language, setCurrentPage }) => {
             style={{
               backgroundImage: `url(${url})`,
               backgroundSize: 'cover',
-              backgroundPosition: 'center',
+              backgroundPosition: window.innerWidth < 768 ? 'top center' : 'center',
               backgroundBlendMode: 'overlay'
             }}
           >
