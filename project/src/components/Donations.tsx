@@ -5,52 +5,15 @@ interface DonationsProps {
   language: string;
 }
 
+
 const Donations: React.FC<DonationsProps> = ({ language }) => {
   const [activeCategory, setActiveCategory] = useState('general');
   const [donationAmount, setDonationAmount] = useState('');
   const [customAmount, setCustomAmount] = useState('');
   const [showThankYou, setShowThankYou] = useState(false);
-  const [smalldonotion, setsmalldonotion] = useState<Donation[]>([]);
 
-  useEffect(() => {
-    fetchPageLoadData();
-  }, []);
 
-  interface Donation {
-    Name: string;
-    Amount: string;
-  }
-
-  const fetchPageLoadData = async () => {
-    try {
-      const res = await fetch("http://localhost:16879/api/Donates/GetDonate", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!res.ok) {
-        throw new Error(`HTTP error! Status: ${res.status}`);
-      }
-
-      const data = await res.json();
-
-      if (data && Array.isArray(data.donate)) {
-        setsmalldonotion(
-          data.donate.map((record: { Name: string; Amount: string }) => ({
-            Name: record.Name,
-            Amount: record.Amount,
-          }))
-        );
-      } else {
-        console.error("Invalid data format:", data);
-      }
-    } catch (err) {
-      console.error("Failed to fetch donation data:", err);
-    }
-  };
-
+  
 
 
   const content = {
@@ -344,22 +307,12 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
               })}
             </div>
 
-            <div className="bg-white rounded-2xl shadow-xl p-6" style={{maxHeight:"250px",overflow:"auto"}}>
+            <div className="bg-white rounded-2xl shadow-xl p-6">
               <h3 className="text-xl font-bold text-gray-800 mb-4">
                 {language === 'english' ? 'Recent Donations' : 'சமீபத்திய நன்கொடைகள்'}
               </h3>
               <div className="space-y-3">
-                {
-                  smalldonotion
-                    .map((donation, index) => (
-                      <div key={index} className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-                        <div>
-                          <div className="font-medium text-gray-800">{donation.Name}</div>
-                          {/* <div className="text-sm text-gray-500">{donation.time}</div> */}
-                        </div>
-                        <div className="text-green-600 font-bold">₹{donation.Amount}</div>
-                      </div>
-                    ))}
+                
               </div>
             </div>
 
