@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, CreditCard, Smartphone, Building, TrendingUp, Users, Target, Download, CheckCircle } from 'lucide-react';
+import { db } from '../DB/firebase'; // Adjust the import path as necessary
+import { collection, addDoc, query, orderBy, limit, getDocs, serverTimestamp } from 'firebase/firestore';
 
 interface DonationsProps {
   language: string;
@@ -11,9 +13,56 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
   const [donationAmount, setDonationAmount] = useState('');
   const [customAmount, setCustomAmount] = useState('');
   const [showThankYou, setShowThankYou] = useState(false);
+  const [recentDonations, setRecentDonations] = useState<any[]>([]);
+  const [donorName, setDonorName] = useState('');   // <-- Added Name state
 
 
-  
+  useEffect(() => {
+    const fetchDonations = async () => {
+      const donationsRef = collection(db, "Mariamman");  // <-- Changed collection name
+      const q = query(donationsRef, orderBy("timestamp", "desc"), limit(5));
+      const snapshot = await getDocs(q);
+      const data = snapshot.docs.map(doc => doc.data());
+      setRecentDonations(data);
+    };
+    fetchDonations();
+  }, []);
+
+  const handleDonation = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const amount = customAmount || donationAmount.replace('₹', '').replace(',', '');
+    if (!donorName) {
+      alert(language === 'english' ? "Please enter your name" : "தயவு செய்து உங்கள் பெயரை உள்ளிடவும்");
+      return;
+    }
+    if (amount) {
+      try {
+        await addDoc(collection(db, "Mariamman"), {   // <-- Changed collection name
+          Category: activeCategory,
+          Amount: String(amount),  // Stored as string to match your structure
+          Name: donorName,
+          timestamp: serverTimestamp()
+        });
+
+        setShowThankYou(true);
+        setTimeout(() => setShowThankYou(false), 5000);
+
+        // Refresh recent donations
+        const donationsRef = collection(db, "Mariamman");
+        const q = query(donationsRef, orderBy("timestamp", "desc"), limit(5));
+        const snapshot = await getDocs(q);
+        setRecentDonations(snapshot.docs.map(doc => doc.data()));
+
+        // Reset inputs
+        setDonationAmount('');
+        setCustomAmount('');
+        setDonorName('');
+      } catch (error) {
+        console.error("Error saving donation: ", error);
+      }
+    }
+  };
+
 
 
   const content = {
@@ -98,15 +147,15 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
     ]
   };
 
-  const handleDonation = (e: React.FormEvent) => {
-    e.preventDefault();
-    const amount = customAmount || donationAmount.replace('₹', '').replace(',', '');
-    if (amount) {
-      // Here you would integrate with payment gateway
-      setShowThankYou(true);
-      setTimeout(() => setShowThankYou(false), 5000);
-    }
-  };
+  // const handleDonation = (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   const amount = customAmount || donationAmount.replace('₹', '').replace(',', '');
+  //   if (amount) {
+  //     // Here you would integrate with payment gateway
+  //     setShowThankYou(true);
+  //     setTimeout(() => setShowThankYou(false), 5000);
+  //   }
+  // };
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-IN', {
@@ -171,7 +220,18 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
               <h2 className="text-2xl font-bold text-gray-800 mb-8">
                 {language === 'english' ? 'Make a Donation' : 'நன்கொடை வழங்கவும்'}
               </h2>
-
+              <div className="mb-8">
+                <h3 className="text-lg font-semibold text-gray-700 mb-4">
+                  {language === 'english' ? 'Your Name' : 'உங்கள் பெயர்'}
+                </h3>
+                <input
+                  type="text"
+                  placeholder={language === 'english' ? 'Enter your name' : 'உங்கள் பெயரை உள்ளிடவும்'}
+                  value={donorName}
+                  onChange={(e) => setDonorName(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                />
+              </div>
               {/* Category Selection */}
               <div className="mb-8">
                 <h3 className="text-lg font-semibold text-gray-700 mb-4">
@@ -307,12 +367,22 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
               })}
             </div>
 
-            <div className="bg-white rounded-2xl shadow-xl p-6">
+            <div className="bg-white rounded-2xl shadow-xl p-6 mt-6">
               <h3 className="text-xl font-bold text-gray-800 mb-4">
                 {language === 'english' ? 'Recent Donations' : 'சமீபத்திய நன்கொடைகள்'}
               </h3>
               <div className="space-y-3">
-                
+                {recentDonations.length > 0 ? recentDonations.map((donation, index) => (
+                  <div key={index} className="flex justify-between border-b pb-2 text-sm">
+                    <span className="font-medium">{donation.Name || donation.name || "Anonymous"}</span>
+                    <span>{formatCurrency(Number(donation.Amount || donation.amount || 0))}</span>
+                    <span className="italic text-gray-500">{donation.Category || donation.category}</span>
+                  </div>
+                )) : (
+                  <p className="text-gray-500 text-sm">
+                    {language === 'english' ? 'No donations yet.' : 'இன்னும் நன்கொடைகள் இல்லை.'}
+                  </p>
+                )}
               </div>
             </div>
 

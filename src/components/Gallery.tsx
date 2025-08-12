@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import { X, ChevronLeft, ChevronRight, Calendar, Camera, Film, Download } from 'lucide-react';
 import kaliimagesiva from "../gallery/kaliimagesiva.jpg";
 import kaliimagesiva1 from "../gallery/kaliimagesiva1.jpg";
+import vino from "../gallery/Vino.jpeg";
+import Rajebdranvideo from '../gallery/Rajendran.mp4';
+import VinoVickySiva2025 from '../gallery/2025-kali.mp4';
+
+
 
 interface GalleryProps {
   language: string;
@@ -17,10 +22,8 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
       title: 'Temple Gallery',
       subtitle: 'Witness the divine beauty and sacred moments of our temple',
       categories: [
-        { id: 'all', name: 'All Photos', icon: Camera },
-        { id: 'festivals', name: 'Festivals', icon: Calendar },
-        { id: 'daily', name: 'Daily Pooja', icon: Film },
-        { id: 'decorations', name: 'Decorations', icon: Download }
+        { id: 'all', name: 'All', icon: Camera },
+        { id: 'video', name: 'Videos', icon: Film },
       ]
     },
     tamil: {
@@ -28,87 +31,59 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
       subtitle: 'எங்கள் கோவிலின் தெய்வீக அழகையும் புனித தருணங்களையும் காணுங்கள்',
       categories: [
         { id: 'all', name: 'அனைத்து புகைப்படங்கள்', icon: Camera },
-        { id: 'festivals', name: 'திருவிழாக்கள்', icon: Calendar },
         { id: 'daily', name: 'தினசரி பூஜை', icon: Film },
-        { id: 'decorations', name: 'அலங்காரங்கள்', icon: Download }
       ]
     }
   };
 
-  // Using Pexels images for demonstration
+  // Updated galleryImages with type for image/video
   const galleryImages = [
     {
       id: 1,
-      src: kaliimagesiva,
-      title: language === 'english' ? 'Morning Pooja Ceremony' : 'காலை பூஜை சடங்கு',
-      category: 'daily',
+      src: vino,
+      type: 'image',
+      title: language === 'english' ? 'Thillai Kali - 2025' : 'காலை பூஜை சடங்கு',
+      category: 'festivals',
       date: '2024-02-15',
-      description: language === 'english' ? 'Sacred morning prayers at the temple' : 'கோவிலில் புனித காலை பிரார்த்தனைகள்'
+      description: language === 'english' ? 'Sacred night prayers at the temple' : 'கோவிலில் புனித காலை பிரார்த்தனைகள்'
     },
     {
       id: 2,
       src: kaliimagesiva1,
-      title: language === 'english' ? 'Mariamman Festival Celebration' : 'மாரியம்மன் திருவிழா கொண்டாட்டம்',
+      type: 'image',
+      title: language === 'english' ? 'Amman' : 'மாரியம்மன் திருவிழா கொண்டாட்டம்',
       category: 'festivals',
       date: '2024-01-20',
       description: language === 'english' ? 'Grand celebration with devotees' : 'பக்தர்களுடன் பெரிய கொண்டாட்டம்'
     },
     {
       id: 3,
-      src: 'https://images.pexels.com/photos/7689730/pexels-photo-7689730.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
-      title: language === 'english' ? 'Temple Architecture' : 'கோவில் கட்டிடக்கலை',
-      category: 'decorations',
+      src: Rajebdranvideo, // sample mp4 video URL
+      type: 'video',
+      title: language === 'english' ? 'Thillai Kali-2008' : 'கோவில் கட்டிடக்கலை வீடியோ',
+      category: 'video',
       date: '2024-02-10',
       description: language === 'english' ? 'Beautiful traditional architecture' : 'அழகிய பாரம்பரிய கட்டிடக்கலை'
     },
     {
       id: 4,
-      src: 'https://images.pexels.com/photos/6086484/pexels-photo-6086484.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
-      title: language === 'english' ? 'Devotee Prayers' : 'பக்தர் பிரார்த்தனைகள்',
-      category: 'daily',
+      src: VinoVickySiva2025, // another mp4 video
+      type: 'video',
+      title: language === 'english' ? 'Kali -2025' : 'பக்தர் பிரார்த்தனைகள் வீடியோ',
+      category: 'video',
       date: '2024-02-12',
       description: language === 'english' ? 'Devotees in prayer and meditation' : 'பிரார்த்தனை மற்றும் தியானத்தில் பக்தர்கள்'
     },
     {
       id: 5,
-      src: 'https://images.pexels.com/photos/6020233/pexels-photo-6020233.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
-      title: language === 'english' ? 'Flower Decorations' : 'பூ அலங்காரங்கள்',
+      src: kaliimagesiva,
+      type: 'image',
+      title: language === 'english' ? 'Amman' : 'பூ அலங்காரங்கள்',
       category: 'decorations',
       date: '2024-02-08',
       description: language === 'english' ? 'Intricate flower arrangements for the deity' : 'தெய்வத்திற்கான நுணுக்கமான பூ ஏற்பாடுகள்'
     },
-    {
-      id: 6,
-      src: 'https://images.pexels.com/photos/4321799/pexels-photo-4321799.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
-      title: language === 'english' ? 'Aadi Pooram Festival' : 'ஆடி பூரம் திருவிழா',
-      category: 'festivals',
-      date: '2024-01-15',
-      description: language === 'english' ? 'Special festival celebration' : 'சிறப்பு திருவிழா கொண்டாட்டம்'
-    },
-    {
-      id: 7,
-      src: 'https://images.pexels.com/photos/6086488/pexels-photo-6086488.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
-      title: language === 'english' ? 'Evening Aarti' : 'மாலை ஆரத்தி',
-      category: 'daily',
-      date: '2024-02-05',
-      description: language === 'english' ? 'Beautiful evening prayer ceremony' : 'அழகிய மாலை பிரார்த்தனை சடங்கு'
-    },
-    {
-      id: 8,
-      src: 'https://images.pexels.com/photos/7045815/pexels-photo-7045815.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
-      title: language === 'english' ? 'Temple Gopuram' : 'கோவில் கோபுரம்',
-      category: 'decorations',
-      date: '2024-02-01',
-      description: language === 'english' ? 'Magnificent temple tower' : 'அற்புதமான கோவில் கோபுரம்'
-    },
-    {
-      id: 9,
-      src: 'https://images.pexels.com/photos/13976349/pexels-photo-13976349.jpeg?auto=compress&cs=tinysrgb&w=800&h=600',
-      title: language === 'english' ? 'Cultural Performance' : 'கலாச்சார நிகழ்ச்சி',
-      category: 'festivals',
-      date: '2024-01-25',
-      description: language === 'english' ? 'Traditional dance during festival' : 'திருவிழாவின் போது பாரம்பரிய நடனம்'
-    }
+   
   ];
 
   const filteredImages = galleryImages.filter(image =>
@@ -197,11 +172,22 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
               onClick={() => openLightbox(image, index)}
             >
               <div className="relative overflow-hidden">
-                <img
-                  src={image.src}
-                  alt={image.title}
-                  className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
-                />
+                {image.type === 'image' ? (
+                  <img
+                    src={image.src}
+                    alt={image.title}
+                    className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
+                  />
+                ) : (
+                  <video
+                    src={image.src}
+                    className="w-full h-64 object-cover"
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                  />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="absolute bottom-4 left-4 right-4">
                     <h3 className="text-white font-bold text-lg mb-2">{image.title}</h3>
@@ -291,15 +277,26 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
                 <ChevronRight className="h-6 w-6" />
               </button>
 
-              {/* Image */}
+              {/* Image or Video */}
               <div className="bg-white rounded-2xl overflow-hidden shadow-2xl">
-                <img
-                  src={lightboxImage.src}
-                  alt={lightboxImage.title}
-                  className="w-full h-auto max-h-[70vh] object-contain"
-                />
-                
-                {/* Image Info */}
+                {lightboxImage.type === 'image' ? (
+                  <img
+                    src={lightboxImage.src}
+                    style={{backgroundColor: "darkslategray"}}
+                    alt={lightboxImage.title}
+                    className="w-full h-auto max-h-[70vh] object-contain"
+                  />
+                ) : (
+                  <video
+                    style={{backgroundColor: "darkslategray"}}
+                    src={lightboxImage.src}
+                    className="w-full h-auto max-h-[70vh]"
+                    controls
+                    autoPlay
+                  />
+                )}
+
+                {/* Info */}
                 <div className="p-6">
                   <div className="flex justify-between items-start mb-4">
                     <div>
