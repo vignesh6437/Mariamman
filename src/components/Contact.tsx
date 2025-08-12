@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, MessageCircle, Send, CheckCircle } from 'lucide-react';
+import emailjs from 'emailjs-com';
 
 interface ContactProps {
   language: string;
@@ -89,12 +90,29 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Here you would integrate with your email service
+  e.preventDefault();
+
+  emailjs.send(
+    'service_g7ssvhc',
+    'template_332jvdt',
+    {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      subject: formData.subject,
+      message: formData.message
+    },
+    'rqFiNkR8d1QX1QKmQ'
+  )
+  .then(() => {
     setShowSuccess(true);
     setFormData({ name: '', email: '', phone: '', subject: '', message: '' });
     setTimeout(() => setShowSuccess(false), 5000);
-  };
+  })
+  .catch(err => {
+    console.error('Failed to send message:', err);
+  });
+};
 
   const faqData = {
     english: [
