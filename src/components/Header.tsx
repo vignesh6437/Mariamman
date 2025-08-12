@@ -33,9 +33,9 @@ const RotatingBanner: React.FC<Props> = ({ language }) => {
 
   const quotes = [
     "ஓம் சக்தி பராசக்தி போற்றி",
-"எங்கள் தாயே போற்றி",
-"அம்பிகையே போற்றி",
-"அம்மனே போற்றி",
+    "எங்கள் தாயே போற்றி",
+    "அம்பிகையே போற்றி",
+    "அம்மனே போற்றி",
   ];
 
   const allItems = [contactInfo, ...quotes];
@@ -145,11 +145,10 @@ const Header: React.FC<HeaderProps> = ({
                     setCurrentPage(item.id);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                   }}
-                  className={`px-2 sm:px-3 py-2 rounded-lg font-medium transition-all duration-200 ${
-                    currentPage === item.id
+                  className={`px-2 sm:px-3 py-2 rounded-lg font-medium transition-all duration-200 ${currentPage === item.id
                       ? 'bg-gradient-to-r from-red-600 to-yellow-500 text-white shadow-lg'
                       : 'text-gray-700 hover:text-red-600 hover:bg-red-50'
-                  }`}
+                    }`}
                 >
                   {item.label}
                 </button>
@@ -178,11 +177,10 @@ const Header: React.FC<HeaderProps> = ({
                   setMobileOpen(false);
                   window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                className={`block w-full text-left px-4 py-2 text-sm font-medium ${
-                  currentPage === item.id
+                className={`block w-full text-left px-4 py-2 text-sm font-medium ${currentPage === item.id
                     ? 'bg-gradient-to-r from-red-600 to-yellow-500 text-white'
                     : 'text-gray-700 hover:bg-red-50'
-                }`}
+                  }`}
               >
                 {item.label}
               </button>

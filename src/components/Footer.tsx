@@ -167,7 +167,12 @@ const Footer: React.FC<FooterProps> = ({ language, setCurrentPage }) => {
               {content[language].quickLinks.links.map((link, index) => (
                 <li key={index}>
                   <button
-                    onClick={() => setCurrentPage(link.page)}
+                   onClick={(e) => {
+                    e.preventDefault();
+                    setCurrentPage(link.page);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                    
                     className="text-yellow-100 hover:text-yellow-200 transition-colors flex items-center space-x-2 group"
                   >
                     <span className="w-1 h-1 bg-yellow-400 rounded-full group-hover:w-2 transition-all"></span>
