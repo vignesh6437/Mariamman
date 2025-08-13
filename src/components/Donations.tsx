@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 interface DonationsProps {
   language: string;
 }
-
+import MotionDiv from '../components/MotionDiv'; // Adjust the import path as necessary
 
 const Donations: React.FC<DonationsProps> = ({ language }) => {
   const [activeCategory, setActiveCategory] = useState('general');
@@ -172,97 +172,67 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-red-50 py-20">
-      <div className="max-w-7xl mx-auto px-4">
+    <MotionDiv className="min-h-screen bg-gradient-to-br from-amber-50 to-red-50 py-20">
+      <MotionDiv className="max-w-7xl mx-auto px-4">
         {/* Header */}
-        <motion.div 
-        className="text-center mb-16"
-         initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}>
+        <MotionDiv>
           <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-red-800 to-yellow-600 bg-clip-text text-transparent mb-4">
             {content[language].title}
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             {content[language].subtitle}
           </p>
-        </motion.div>
+        </MotionDiv>
 
         {/* Donation Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          <motion.div  className="bg-white rounded-2xl shadow-lg p-6 text-center"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}>
-            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <MotionDiv className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+          <MotionDiv  className="bg-white rounded-2xl shadow-lg p-6 text-center"
+>
+            <MotionDiv className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <TrendingUp className="h-6 w-6 text-green-600" />
-            </div>
-            <div className="text-2xl font-bold text-green-600 mb-1">₹25L+</div>
-            <div className="text-sm text-gray-600">{language === 'english' ? 'Total Raised' : 'மொத்த நன்கொடை'}</div>
-          </motion.div >
+            </MotionDiv>
+            <MotionDiv className="text-2xl font-bold text-green-600 mb-1">₹25L+</MotionDiv>
+            <MotionDiv className="text-sm text-gray-600">{language === 'english' ? 'Total Raised' : 'மொத்த நன்கொடை'}</MotionDiv>
+          </MotionDiv >
 
-          <motion.div  className="bg-white rounded-2xl shadow-lg p-6 text-center"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}>
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <MotionDiv  className="bg-white rounded-2xl shadow-lg p-6 text-center">
+            <MotionDiv className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Users className="h-6 w-6 text-blue-600" />
-            </div>
-            <div className="text-2xl font-bold text-blue-600 mb-1">4,500+</div>
-            <div className="text-sm text-gray-600">{language === 'english' ? 'Donors' : 'நன்கொடையாளர்கள்'}</div>
-           </motion.div >
+            </MotionDiv>
+            <MotionDiv className="text-2xl font-bold text-blue-600 mb-1">4,500+</MotionDiv>
+            <MotionDiv className="text-sm text-gray-600">{language === 'english' ? 'Donors' : 'நன்கொடையாளர்கள்'}</MotionDiv>
+           </MotionDiv >
 
 
-         <motion.div  className="bg-white rounded-2xl shadow-lg p-6 text-center"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}>
-            <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+         <MotionDiv  className="bg-white rounded-2xl shadow-lg p-6 text-center"
+          >
+            <MotionDiv className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Target className="h-6 w-6 text-orange-600" />
-            </div>
-            <div className="text-2xl font-bold text-orange-600 mb-1">8</div>
-            <div className="text-sm text-gray-600">{language === 'english' ? 'Active Campaigns' : 'செயலில் உள்ள பிரச்சாரங்கள்'}</div>
-           </motion.div >
+            </MotionDiv>
+            <MotionDiv className="text-2xl font-bold text-orange-600 mb-1">8</MotionDiv>
+            <MotionDiv className="text-sm text-gray-600">{language === 'english' ? 'Active Campaigns' : 'செயலில் உள்ள பிரச்சாரங்கள்'}</MotionDiv>
+           </MotionDiv >
 
 
-         <motion.div  className="bg-white rounded-2xl shadow-lg p-6 text-center"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}>
-            <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+         <MotionDiv  className="bg-white rounded-2xl shadow-lg p-6 text-center"
+      >
+            <MotionDiv className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Heart className="h-6 w-6 text-purple-600" />
-            </div>
-            <div className="text-2xl font-bold text-purple-600 mb-1">95%</div>
-            <div className="text-sm text-gray-600">{language === 'english' ? 'Transparency' : 'வெளிப்படைத்தன்மை'}</div>
-           </motion.div >
+            </MotionDiv>
+            <MotionDiv className="text-2xl font-bold text-purple-600 mb-1">95%</MotionDiv>
+            <MotionDiv className="text-sm text-gray-600">{language === 'english' ? 'Transparency' : 'வெளிப்படைத்தன்மை'}</MotionDiv>
+           </MotionDiv >
 
-        </div>
+        </MotionDiv>
 
-        <motion.div className="grid lg:grid-cols-3 gap-8"
-        initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}>
+        <MotionDiv className="grid lg:grid-cols-3 gap-8">
           {/* Donation Form */}
-          <motion.div className="lg:col-span-2"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}>
-            <motion.div className="bg-white rounded-2xl shadow-xl p-8"
-            initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}>
+          <MotionDiv className="lg:col-span-2">
+            <MotionDiv className="bg-white rounded-2xl shadow-xl p-8">
               <h2 className="text-2xl font-bold text-gray-800 mb-8">
                 {language === 'english' ? 'Make a Donation' : 'நன்கொடை வழங்கவும்'}
               </h2>
-              <div className="mb-8">
+              <MotionDiv className="mb-8">
                 <h3 className="text-lg font-semibold text-gray-700 mb-4">
                   {language === 'english' ? 'Your Name' : 'உங்கள் பெயர்'}
                 </h3>
@@ -273,13 +243,13 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
                   onChange={(e) => setDonorName(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 />
-              </div>
+              </MotionDiv>
               {/* Category Selection */}
-              <div className="mb-8">
+              <MotionDiv className="mb-8">
                 <h3 className="text-lg font-semibold text-gray-700 mb-4">
                   {language === 'english' ? 'Select Category' : 'வகையைத் தேர்ந்தெடுக்கவும்'}
                 </h3>
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <MotionDiv className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                   {content[language].categories.map((category) => (
                     <button
                       key={category.id}
@@ -293,15 +263,15 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
                       <span className="text-sm font-medium">{category.name}</span>
                     </button>
                   ))}
-                </div>
-              </div>
+                </MotionDiv>
+              </MotionDiv>
 
               {/* Amount Selection */}
-              <div className="mb-8">
+              <MotionDiv className="mb-8">
                 <h3 className="text-lg font-semibold text-gray-700 mb-4">
                   {language === 'english' ? 'Choose Amount' : 'தொகையைத் தேர்ந்தெடுக்கவும்'}
                 </h3>
-                <div className="grid grid-cols-3 lg:grid-cols-6 gap-3 mb-4">
+                <MotionDiv className="grid grid-cols-3 lg:grid-cols-6 gap-3 mb-4">
                   {content[language].quickAmounts.map((amount, index) => (
                     <button
                       key={index}
@@ -321,7 +291,7 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
                       {amount}
                     </button>
                   ))}
-                </div>
+                </MotionDiv>
 
                 {(donationAmount === 'Custom' || donationAmount === 'விரும்பிய தொகை' || (!donationAmount && customAmount)) && (
                   <input
@@ -332,25 +302,25 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                   />
                 )}
-              </div>
+              </MotionDiv>
 
               {/* Payment Methods */}
-              <div className="mb-8">
+              <MotionDiv className="mb-8">
                 <h3 className="text-lg font-semibold text-gray-700 mb-4">
                   {language === 'english' ? 'Payment Method' : 'பணம் செலுத்தும் முறை'}
                 </h3>
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <MotionDiv className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                   {content[language].paymentMethods.map((method, index) => (
-                    <div key={index} className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-red-300 cursor-pointer">
+                    <MotionDiv key={index} className="flex items-center space-x-3 p-4 border border-gray-200 rounded-lg hover:border-red-300 cursor-pointer">
                       {index === 0 && <Smartphone className="h-5 w-5 text-blue-600" />}
                       {index === 1 && <CreditCard className="h-5 w-5 text-green-600" />}
                       {index === 2 && <Building className="h-5 w-5 text-orange-600" />}
                       {index === 3 && <Heart className="h-5 w-5 text-purple-600" />}
                       <span className="text-sm font-medium">{method}</span>
-                    </div>
+                    </MotionDiv>
                   ))}
-                </div>
-              </div>
+                </MotionDiv>
+              </MotionDiv>
 
               <form onSubmit={handleDonation}>
                 <button
@@ -362,20 +332,20 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
                 </button>
               </form>
 
-              <div className="mt-6 text-center text-sm text-gray-500">
+              <MotionDiv className="mt-6 text-center text-sm text-gray-500">
                 <p>
                   {language === 'english'
                     ? '🔒 Your donation is secure and encrypted. You will receive a tax-deductible receipt.'
                     : '🔒 உங்கள் நன்கொடை பாதுகாப்பானது மற்றும் குறியாக்கம் செய்யப்பட்டது. வரி விலக்கு ரசீதை நீங்கள் பெறுவீர்கள்.'
                   }
                 </p>
-              </div>
-            </motion.div>
-          </motion.div>
+              </MotionDiv>
+            </MotionDiv>
+          </MotionDiv>
 
           {/* Campaign Progress */}
-          <div className="space-y-6">
-            <div className="bg-white rounded-2xl shadow-xl p-6">
+          <MotionDiv className="space-y-6">
+            <MotionDiv className="bg-white rounded-2xl shadow-xl p-6">
               <h3 className="text-xl font-bold text-gray-800 mb-6">
                 {language === 'english' ? 'Active Campaigns' : 'செயலில் உள்ள பிரச்சாரங்கள்'}
               </h3>
@@ -383,52 +353,52 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
               {campaigns[language].map((campaign) => {
                 const percentage = (campaign.raised / campaign.target) * 100;
                 return (
-                  <div key={campaign.id} className="mb-6 p-4 border border-gray-100 rounded-xl">
+                  <MotionDiv key={campaign.id} className="mb-6 p-4 border border-gray-100 rounded-xl">
                     <h4 className="font-bold text-gray-800 mb-2">{campaign.title}</h4>
                     <p className="text-sm text-gray-600 mb-4">{campaign.description}</p>
 
-                    <div className="mb-3">
-                      <div className="flex justify-between text-sm mb-1">
+                    <MotionDiv className="mb-3">
+                      <MotionDiv className="flex justify-between text-sm mb-1">
                         <span>{formatCurrency(campaign.raised)}</span>
                         <span className="text-gray-500">{formatCurrency(campaign.target)}</span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div
+                      </MotionDiv>
+                      <MotionDiv className="w-full bg-gray-200 rounded-full h-2">
+                        <MotionDiv
                           className="bg-gradient-to-r from-red-500 to-yellow-400 h-2 rounded-full"
                           style={{ width: `${Math.min(percentage, 100)}%` }}
                         />
-                      </div>
-                    </div>
+                      </MotionDiv>
+                    </MotionDiv>
 
-                    <div className="flex justify-between text-sm">
+                    <MotionDiv className="flex justify-between text-sm">
                       <span className="text-green-600 font-medium">{percentage.toFixed(1)}% {language === 'english' ? 'funded' : 'நிதி'}</span>
                       <span className="text-gray-600">{campaign.donors} {language === 'english' ? 'donors' : 'நன்கொடையாளர்கள்'}</span>
-                    </div>
-                  </div>
+                    </MotionDiv>
+                  </MotionDiv>
                 );
               })}
-            </div>
+            </MotionDiv>
 
-            <div className="bg-white rounded-2xl shadow-xl p-6 mt-6">
+            <MotionDiv className="bg-white rounded-2xl shadow-xl p-6 mt-6">
               <h3 className="text-xl font-bold text-gray-800 mb-4">
                 {language === 'english' ? 'Recent Donations' : 'சமீபத்திய நன்கொடைகள்'}
               </h3>
-              <div className="space-y-3">
+              <MotionDiv className="space-y-3">
                 {recentDonations.length > 0 ? recentDonations.map((donation, index) => (
-                  <div key={index} className="flex justify-between border-b pb-2 text-sm">
+                  <MotionDiv key={index} className="flex justify-between border-b pb-2 text-sm">
                     <span className="font-medium">{donation.Name || donation.name || "Anonymous"}</span>
                     <span>{formatCurrency(Number(donation.Amount || donation.amount || 0))}</span>
                     <span className="italic text-gray-500">{donation.Category || donation.category}</span>
-                  </div>
+                  </MotionDiv>
                 )) : (
                   <p className="text-gray-500 text-sm">
                     {language === 'english' ? 'No donations yet.' : 'இன்னும் நன்கொடைகள் இல்லை.'}
                   </p>
                 )}
-              </div>
-            </div>
+              </MotionDiv>
+            </MotionDiv>
 
-            <div className="bg-gradient-to-br from-red-100 to-yellow-100 rounded-2xl p-6 text-center">
+            <MotionDiv className="bg-gradient-to-br from-red-100 to-yellow-100 rounded-2xl p-6 text-center">
               <Download className="h-8 w-8 text-red-600 mx-auto mb-3" />
               <h4 className="font-bold text-gray-800 mb-2">
                 {language === 'english' ? 'Tax Benefits' : 'வரி சலுகைகள்'}
@@ -439,14 +409,14 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
                   : 'அனைத்து நன்கொடைகளும் வருமான வரிச் சட்டத்தின் கீழ் 80G வரி விலக்குக்கு தகுதியானவை'
                 }
               </p>
-            </div>
-          </div>
-       </motion.div>
+            </MotionDiv>
+          </MotionDiv>
+        </MotionDiv>
 
         {/* Thank You Modal */}
         {showThankYou && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center">
+          <MotionDiv className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <MotionDiv className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center">
               <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
               <h3 className="text-2xl font-bold text-gray-800 mb-4">
                 {language === 'english' ? 'Thank You!' : 'நன்றி!'}
@@ -463,11 +433,11 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
               >
                 {language === 'english' ? 'Close' : 'மூடு'}
               </button>
-            </div>
-          </div>
+            </MotionDiv>
+          </MotionDiv>
         )}
-      </div>
-    </div>
+      </MotionDiv>
+    </MotionDiv>
   );
 };
 

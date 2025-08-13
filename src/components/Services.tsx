@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar, Clock, CreditCard, CheckCircle, User, Phone, Mail, Star } from 'lucide-react';
+import MotionDiv from '../components/MotionDiv'; // Adjust the import path as necessary
 
 interface ServicesProps {
   language: string;
@@ -98,10 +99,10 @@ const Services: React.FC<ServicesProps> = ({ language }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-red-50 py-20">
-      <div className="max-w-7xl mx-auto px-4">
+    <MotionDiv className="min-h-screen bg-gradient-to-br from-amber-50 to-red-50 py-20">
+      <MotionDiv className="max-w-7xl mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-16">
+        <MotionDiv className="text-center mb-16">
           <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-red-800 to-yellow-600 bg-clip-text text-transparent mb-4">
             {language === 'english' ? 'Online Temple Services' : 'ஆன்லைன் கோவில் சேவைகள்'}
           </h1>
@@ -111,10 +112,10 @@ const Services: React.FC<ServicesProps> = ({ language }) => {
               : 'எங்கள் பாதுகாப்பான ஆன்லайன் தளத்தின் மூலம் உங்கள் வீட்டிலிருந்தே புனித சேவைகள் மற்றும் காணிக்கைகளை முன்பதிவு செய்யுங்கள்'
             }
           </p>
-        </div>
+        </MotionDiv>
 
         {/* Service Categories */}
-        <div className="grid lg:grid-cols-4 gap-6 mb-12">
+        <MotionDiv className="grid lg:grid-cols-4 gap-6 mb-12">
           {Object.keys(services[language]).map((serviceKey) => {
             const service = services[language][serviceKey];
             return (
@@ -127,20 +128,20 @@ const Services: React.FC<ServicesProps> = ({ language }) => {
                     : 'bg-white text-gray-800 shadow-lg hover:shadow-xl'
                 }`}
               >
-                <div className="flex items-center justify-between mb-4">
-                  <div className={`p-3 rounded-lg ${
+                <MotionDiv className="flex items-center justify-between mb-4">
+                  <MotionDiv className={`p-3 rounded-lg ${
                     activeService === serviceKey ? 'bg-white/20' : 'bg-red-100'
                   }`}>
                     <Star className={`h-6 w-6 ${
                       activeService === serviceKey ? 'text-white' : 'text-red-600'
                     }`} />
-                  </div>
+                  </MotionDiv>
                   <span className={`text-lg font-bold ${
                     activeService === serviceKey ? 'text-yellow-200' : 'text-red-600'
                   }`}>
                     {service.price}
                   </span>
-                </div>
+                </MotionDiv>
                 <h3 className="text-xl font-bold mb-2">{service.title}</h3>
                 <p className={`text-sm ${
                   activeService === serviceKey ? 'text-white/90' : 'text-gray-600'
@@ -150,51 +151,51 @@ const Services: React.FC<ServicesProps> = ({ language }) => {
               </button>
             );
           })}
-        </div>
+        </MotionDiv>
 
         {/* Service Details */}
-        <div className="grid lg:grid-cols-3 gap-8">
+        <MotionDiv className="grid lg:grid-cols-3 gap-8">
           {/* Service Info */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-xl p-8">
-              <div className="flex items-center justify-between mb-6">
+          <MotionDiv className="lg:col-span-2">
+            <MotionDiv className="bg-white rounded-2xl shadow-xl p-8">
+              <MotionDiv className="flex items-center justify-between mb-6">
                 <h2 className="text-3xl font-bold text-gray-800">
                   {services[language][activeService].title}
                 </h2>
                 <span className="text-2xl font-bold text-red-600">
                   {services[language][activeService].price}
                 </span>
-              </div>
+              </MotionDiv>
 
               <p className="text-gray-600 text-lg mb-8 leading-relaxed">
                 {services[language][activeService].description}
               </p>
 
-              <div className="mb-8">
+              <MotionDiv className="mb-8">
                 <h3 className="text-xl font-bold text-gray-800 mb-4">
                   {language === 'english' ? 'What\'s Included' : 'உள்ளடக்கப்பட்டது'}
                 </h3>
-                <div className="grid md:grid-cols-2 gap-4">
+                <MotionDiv className="grid md:grid-cols-2 gap-4">
                   {services[language][activeService].features.map((feature, index) => (
-                    <div key={index} className="flex items-center space-x-3">
+                    <MotionDiv key={index} className="flex items-center space-x-3">
                       <CheckCircle className="h-5 w-5 text-green-600" />
                       <span className="text-gray-700">{feature}</span>
-                    </div>
+                    </MotionDiv>
                   ))}
-                </div>
-              </div>
+                </MotionDiv>
+              </MotionDiv>
 
-              <div className="bg-gradient-to-r from-yellow-50 to-red-50 rounded-xl p-6 mb-8">
-                <div className="flex items-center space-x-3">
+              <MotionDiv className="bg-gradient-to-r from-yellow-50 to-red-50 rounded-xl p-6 mb-8">
+                <MotionDiv className="flex items-center space-x-3">
                   <Clock className="h-6 w-6 text-red-600" />
-                  <div>
+                  <MotionDiv>
                     <h4 className="font-bold text-gray-800">
                       {language === 'english' ? 'Availability' : 'கிடைக்கும் நேரம்'}
                     </h4>
                     <p className="text-gray-600">{services[language][activeService].availability}</p>
-                  </div>
-                </div>
-              </div>
+                  </MotionDiv>
+                </MotionDiv>
+              </MotionDiv>
 
               <button
                 onClick={() => setShowBookingForm(true)}
@@ -202,75 +203,75 @@ const Services: React.FC<ServicesProps> = ({ language }) => {
               >
                 {language === 'english' ? 'Book Now' : 'இப்போதே முன்பதிவு செய்யுங்கள்'}
               </button>
-            </div>
-          </div>
+            </MotionDiv>
+          </MotionDiv>
 
           {/* Quick Stats */}
-          <div className="space-y-6">
-            <div className="bg-white rounded-2xl shadow-xl p-6">
+          <MotionDiv className="space-y-6">
+            <MotionDiv className="bg-white rounded-2xl shadow-xl p-6">
               <h3 className="text-xl font-bold text-gray-800 mb-6">
                 {language === 'english' ? 'Service Statistics' : 'சேவை புள்ளிவிவரங்கள்'}
               </h3>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
+              <MotionDiv className="space-y-4">
+                <MotionDiv className="flex justify-between items-center">
                   <span className="text-gray-600">{language === 'english' ? 'Today\'s Bookings' : 'இன்றைய முன்பதிவுகள்'}</span>
                   <span className="font-bold text-red-600">27</span>
-                </div>
-                <div className="flex justify-between items-center">
+                </MotionDiv>
+                <MotionDiv className="flex justify-between items-center">
                   <span className="text-gray-600">{language === 'english' ? 'Available Slots' : 'கிடைக்கும் இடங்கள்'}</span>
                   <span className="font-bold text-green-600">15</span>
-                </div>
-                <div className="flex justify-between items-center">
+                </MotionDiv>
+                <MotionDiv className="flex justify-between items-center">
                   <span className="text-gray-600">{language === 'english' ? 'Next Available' : 'அடுத்து கிடைக்கும்'}</span>
                   <span className="font-bold text-blue-600">2:00 PM</span>
-                </div>
-              </div>
-            </div>
+                </MotionDiv>
+              </MotionDiv>
+            </MotionDiv>
 
-            <div className="bg-white rounded-2xl shadow-xl p-6">
+            <MotionDiv className="bg-white rounded-2xl shadow-xl p-6">
               <h3 className="text-xl font-bold text-gray-800 mb-6">
                 {language === 'english' ? 'Customer Reviews' : 'வாடிக்கையாளர் மதிப்புரைகள்'}
               </h3>
-              <div className="space-y-4">
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="flex items-center mb-2">
-                    <div className="flex text-yellow-400">
+              <MotionDiv className="space-y-4">
+                <MotionDiv className="bg-gray-50 rounded-lg p-4">
+                  <MotionDiv className="flex items-center mb-2">
+                    <MotionDiv className="flex text-yellow-400">
                       {[1,2,3,4,5].map(i => <Star key={i} className="h-4 w-4 fill-current" />)}
-                    </div>
+                    </MotionDiv>
                     <span className="ml-2 text-sm text-gray-600">Priya S.</span>
-                  </div>
+                  </MotionDiv>
                   <p className="text-sm text-gray-700">
                     {language === 'english' 
                       ? 'Excellent service! Very smooth booking process.'
                       : 'சிறந்த சேவை! மிகவும் எளிதான முன்பதிவு செயல்முறை.'
                     }
                   </p>
-                </div>
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="flex items-center mb-2">
-                    <div className="flex text-yellow-400">
+                </MotionDiv>
+                <MotionDiv className="bg-gray-50 rounded-lg p-4">
+                  <MotionDiv className="flex items-center mb-2">
+                    <MotionDiv className="flex text-yellow-400">
                       {[1,2,3,4,5].map(i => <Star key={i} className="h-4 w-4 fill-current" />)}
-                    </div>
+                    </MotionDiv>
                     <span className="ml-2 text-sm text-gray-600">Raj M.</span>
-                  </div>
+                  </MotionDiv>
                   <p className="text-sm text-gray-700">
                     {language === 'english' 
                       ? 'Blessed to be able to book online. Highly recommend!'
                       : 'ஆன்லைனில் முன்பதிவு செய்ய முடிந்ததில் ஆசீர்வாதம்!'
                     }
                   </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+                </MotionDiv>
+              </MotionDiv>
+            </MotionDiv>
+          </MotionDiv>
+        </MotionDiv>
 
         {/* Booking Form Modal */}
         {showBookingForm && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-6">
+          <MotionDiv className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <MotionDiv className="bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+              <MotionDiv className="p-6">
+                <MotionDiv className="flex items-center justify-between mb-6">
                   <h3 className="text-2xl font-bold text-gray-800">
                     {language === 'english' ? 'Book Service' : 'சேவை முன்பதிவு'}
                   </h3>
@@ -280,10 +281,10 @@ const Services: React.FC<ServicesProps> = ({ language }) => {
                   >
                     ×
                   </button>
-                </div>
+                </MotionDiv>
 
                 <form onSubmit={handleBooking} className="space-y-6">
-                  <div>
+                  <MotionDiv>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       <User className="inline h-4 w-4 mr-1" />
                       {language === 'english' ? 'Full Name' : 'முழு பெயர்'}
@@ -296,9 +297,9 @@ const Services: React.FC<ServicesProps> = ({ language }) => {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                       placeholder={language === 'english' ? 'Enter your name' : 'உங்கள் பெயரை உள்ளிடுங்கள்'}
                     />
-                  </div>
+                  </MotionDiv>
 
-                  <div>
+                  <MotionDiv>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       <Phone className="inline h-4 w-4 mr-1" />
                       {language === 'english' ? 'Phone Number' : 'தொலைபேசி எண்'}
@@ -311,9 +312,9 @@ const Services: React.FC<ServicesProps> = ({ language }) => {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                       placeholder="+91 98765 43210"
                     />
-                  </div>
+                  </MotionDiv>
 
-                  <div>
+                  <MotionDiv>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       <Mail className="inline h-4 w-4 mr-1" />
                       {language === 'english' ? 'Email Address' : 'மின்னஞ்சல் முகவரி'}
@@ -326,10 +327,10 @@ const Services: React.FC<ServicesProps> = ({ language }) => {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                       placeholder="your@email.com"
                     />
-                  </div>
+                  </MotionDiv>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
+                  <MotionDiv className="grid grid-cols-2 gap-4">
+                    <MotionDiv>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         <Calendar className="inline h-4 w-4 mr-1" />
                         {language === 'english' ? 'Date' : 'தேதி'}
@@ -342,8 +343,8 @@ const Services: React.FC<ServicesProps> = ({ language }) => {
                         min={new Date().toISOString().split('T')[0]}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                       />
-                    </div>
-                    <div>
+                    </MotionDiv>
+                    <MotionDiv>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         <Clock className="inline h-4 w-4 mr-1" />
                         {language === 'english' ? 'Time' : 'நேரம்'}
@@ -363,10 +364,10 @@ const Services: React.FC<ServicesProps> = ({ language }) => {
                         <option value="16:00">4:00 PM</option>
                         <option value="18:00">6:00 PM</option>
                       </select>
-                    </div>
-                  </div>
+                    </MotionDiv>
+                  </MotionDiv>
 
-                  <div>
+                  <MotionDiv>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                       {language === 'english' ? 'Special Requests' : 'சிறப்பு கோரிக்கைகள்'}
                     </label>
@@ -377,9 +378,9 @@ const Services: React.FC<ServicesProps> = ({ language }) => {
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                       placeholder={language === 'english' ? 'Any special requests or instructions...' : 'ஏதேனும் சிறப்பு கோரிக்கைகள் அல்லது அறிவுரைகள்...'}
                     />
-                  </div>
+                  </MotionDiv>
 
-                  <div className="flex space-x-4">
+                  <MotionDiv className="flex space-x-4">
                     <button
                       type="button"
                       onClick={() => setShowBookingForm(false)}
@@ -394,14 +395,14 @@ const Services: React.FC<ServicesProps> = ({ language }) => {
                       <CreditCard className="inline h-4 w-4 mr-2" />
                       {language === 'english' ? 'Confirm Booking' : 'முன்பதிவை உறுதிப்படுத்து'}
                     </button>
-                  </div>
+                  </MotionDiv>
                 </form>
-              </div>
-            </div>
-          </div>
+              </MotionDiv>
+            </MotionDiv>
+          </MotionDiv>
         )}
-      </div>
-    </div>
+      </MotionDiv>
+    </MotionDiv>
   );
 };
 

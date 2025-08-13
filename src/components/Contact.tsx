@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, MessageCircle, Send, CheckCircle } from 'lucide-react';
 import emailjs from 'emailjs-com';
-
+import MotionDiv from '../components/MotionDiv'; // Adjust the import path as necessary
 interface ContactProps {
   language: string;
 }
@@ -154,36 +154,36 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-red-50 py-20">
-      <div className="max-w-7xl mx-auto px-4">
+    <MotionDiv className="min-h-screen bg-gradient-to-br from-amber-50 to-red-50 py-20">
+      <MotionDiv className="max-w-7xl mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-16">
+        <MotionDiv className="text-center mb-16">
           <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-red-800 to-yellow-600 bg-clip-text text-transparent mb-4">
             {content[language].title}
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             {content[language].subtitle}
           </p>
-        </div>
+        </MotionDiv>
 
         {/* Main Content Grid */}
-        <div className="grid lg:grid-cols-2 gap-12 mb-16">
+        <MotionDiv className="grid lg:grid-cols-2 gap-12 mb-16">
           {/* Contact Form */}
-          <div className="bg-white rounded-2xl shadow-xl p-8">
+          <MotionDiv className="bg-white rounded-2xl shadow-xl p-8">
             <h2 className="text-2xl font-bold text-gray-800 mb-8 flex items-center">
               <MessageCircle className="h-6 w-6 mr-3 text-red-600" />
               {content[language].form.title}
             </h2>
 
             {showSuccess && (
-              <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center text-green-800">
+              <MotionDiv className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center text-green-800">
                 <CheckCircle className="h-5 w-5 mr-2" />
                 {content[language].form.success}
-              </div>
+              </MotionDiv>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
+              <MotionDiv>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   {content[language].form.name}
                 </label>
@@ -195,10 +195,10 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors"
                   placeholder={content[language].form.name}
                 />
-              </div>
+              </MotionDiv>
 
-              <div className="grid md:grid-cols-2 gap-4">
-                <div>
+              <MotionDiv className="grid md:grid-cols-2 gap-4">
+                <MotionDiv>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     {content[language].form.email}
                   </label>
@@ -210,9 +210,9 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors"
                     placeholder="your@email.com"
                   />
-                </div>
+                </MotionDiv>
 
-                <div>
+                <MotionDiv>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     {content[language].form.phone}
                   </label>
@@ -224,10 +224,10 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors"
                     placeholder="+91 98765 43210"
                   />
-                </div>
-              </div>
+                </MotionDiv>
+              </MotionDiv>
 
-              <div>
+              <MotionDiv>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   {content[language].form.subject}
                 </label>
@@ -243,9 +243,9 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
                   <option value="event">{language === 'english' ? 'Event Information' : 'நிகழ்வு தகவல்'}</option>
                   <option value="general">{language === 'english' ? 'General Inquiry' : 'பொதுவான விசாரணை'}</option>
                 </select>
-              </div>
+              </MotionDiv>
 
-              <div>
+              <MotionDiv>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   {content[language].form.message}
                 </label>
@@ -257,7 +257,7 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent transition-colors resize-none"
                   placeholder={language === 'english' ? 'Please describe your inquiry...' : 'தயவுசெய்து உங்கள் விசாரணையை விவரிக்கவும்...'}
                 />
-              </div>
+              </MotionDiv>
 
               <button
                 type="submit"
@@ -267,64 +267,64 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
                 {content[language].form.submit}
               </button>
             </form>
-          </div>
+          </MotionDiv>
 
           {/* Contact Information */}
-          <div className="space-y-8">
+          <MotionDiv className="space-y-8">
             {/* Temple Info */}
-            <div className="bg-white rounded-2xl shadow-xl p-8">
+            <MotionDiv className="bg-white rounded-2xl shadow-xl p-8">
               <h2 className="text-2xl font-bold text-gray-800 mb-8">
                 {content[language].contactInfo.title}
               </h2>
 
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+              <MotionDiv className="space-y-6">
+                <MotionDiv className="flex items-start space-x-4">
+                  <MotionDiv className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
                     <MapPin className="h-6 w-6 text-red-600" />
-                  </div>
-                  <div>
+                  </MotionDiv>
+                  <MotionDiv>
                     <h3 className="font-semibold text-gray-800 mb-1">
                       {content[language].contactInfo.address}
                     </h3>
                     <p className="text-gray-600">
                       {content[language].contactInfo.addressValue}
                     </p>
-                  </div>
-                </div>
+                  </MotionDiv>
+                </MotionDiv>
 
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <MotionDiv className="flex items-start space-x-4">
+                  <MotionDiv className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Phone className="h-6 w-6 text-green-600" />
-                  </div>
-                  <div>
+                  </MotionDiv>
+                  <MotionDiv>
                     <h3 className="font-semibold text-gray-800 mb-1">
                       {content[language].contactInfo.phone}
                     </h3>
                     <p className="text-gray-600">
                       {content[language].contactInfo.phoneValue}
                     </p>
-                  </div>
-                </div>
+                  </MotionDiv>
+                </MotionDiv>
 
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <MotionDiv className="flex items-start space-x-4">
+                  <MotionDiv className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Mail className="h-6 w-6 text-blue-600" />
-                  </div>
-                  <div>
+                  </MotionDiv>
+                  <MotionDiv>
                     <h3 className="font-semibold text-gray-800 mb-1">
                       {content[language].contactInfo.email}
                     </h3>
                     <p className="text-gray-600">
                       {content[language].contactInfo.emailValue}
                     </p>
-                  </div>
-                </div>
+                  </MotionDiv>
+                </MotionDiv>
 
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                <MotionDiv className="flex items-start space-x-4">
+                  <MotionDiv className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
                     <MessageCircle className="h-6 w-6 text-purple-600" />
-                  </div>
-                  <div>
+                  </MotionDiv>
+                  <MotionDiv>
                     <h3 className="font-semibold text-gray-800 mb-1">
                       {content[language].contactInfo.whatsapp}
                     </h3>
@@ -334,62 +334,62 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
                     <button className="mt-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm transition-colors">
                       {language === 'english' ? 'Chat on WhatsApp' : 'வாட்ஸ்ஆப்பில் அரட்டை'}
                     </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+                  </MotionDiv>
+                </MotionDiv>
+              </MotionDiv>
+            </MotionDiv>
 
             {/* Temple Timings */}
-            <div className="bg-white rounded-2xl shadow-xl p-8">
+            <MotionDiv className="bg-white rounded-2xl shadow-xl p-8">
               <h2 className="text-2xl font-bold text-gray-800 mb-8 flex items-center">
                 <Clock className="h-6 w-6 mr-3 text-yellow-600" />
                 {content[language].timings.title}
               </h2>
 
-              <div className="space-y-4">
-                <div className="flex justify-between items-center py-3 border-b border-gray-100">
+              <MotionDiv className="space-y-4">
+                <MotionDiv className="flex justify-between items-center py-3 border-b border-gray-100">
                   <span className="font-semibold text-gray-800">
                     {content[language].timings.morning}
                   </span>
                   <span className="text-gray-600">
                     {content[language].timings.morningTime}
                   </span>
-                </div>
+                </MotionDiv>
 
-                <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                <MotionDiv className="flex justify-between items-center py-3 border-b border-gray-100">
                   <span className="font-semibold text-gray-800">
                     {content[language].timings.evening}
                   </span>
                   <span className="text-gray-600">
                     {content[language].timings.eveningTime}
                   </span>
-                </div>
+                </MotionDiv>
 
-                <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                <MotionDiv className="flex justify-between items-center py-3 border-b border-gray-100">
                   <span className="font-semibold text-gray-800">
                     {content[language].timings.special}
                   </span>
                   <span className="text-gray-600">
                     {content[language].timings.specialTime}
                   </span>
-                </div>
-              </div>
+                </MotionDiv>
+              </MotionDiv>
 
-              <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+              <MotionDiv className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                 <p className="text-sm text-yellow-800">
                   <strong>{language === 'english' ? 'Note:' : 'குறிப்பு:'}</strong> {content[language].timings.note}
                 </p>
-              </div>
-            </div>
-          </div>
-        </div>
+              </MotionDiv>
+            </MotionDiv>
+          </MotionDiv>
+        </MotionDiv>
 
         {/* Google Maps Embed */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 mb-16">
+        <MotionDiv className="bg-white rounded-2xl shadow-xl p-8 mb-16">
           <h2 className="text-2xl font-bold text-gray-800 mb-8">
             {language === 'english' ? 'Temple Location' : 'கோவில் இருப்பிடம்'}
           </h2>
-          <div className="aspect-video bg-gray-200 rounded-xl overflow-hidden">
+          <MotionDiv className="aspect-video bg-gray-200 rounded-xl overflow-hidden">
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1790.0516832740198!2d79.69666841307934!3d11.398620240212109!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a54c3f5dbb1fb67%3A0x2d5fb16b8eea5999!2sSri%20selvamariamman%20kovil!5e1!3m2!1sen!2sin!4v1754737336000!5m2!1sen!2sin"
               width="100%"
@@ -400,35 +400,35 @@ const Contact: React.FC<ContactProps> = ({ language }) => {
               referrerPolicy="no-referrer-when-downgrade"
               className="rounded-xl"
             />
-          </div>
-          <div className="mt-4 text-center">
+          </MotionDiv>
+          <MotionDiv className="mt-4 text-center">
             <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors">
               {language === 'english' ? 'Get Directions' : 'திசைகளைப் பெறவும்'}
             </button>
-          </div>
-        </div>
+          </MotionDiv>
+        </MotionDiv>
 
         {/* FAQ Section */}
-        <div className="bg-white rounded-2xl shadow-xl p-8">
+        <MotionDiv className="bg-white rounded-2xl shadow-xl p-8">
           <h2 className="text-2xl font-bold text-gray-800 mb-8">
             {language === 'english' ? 'Frequently Asked Questions' : 'அடிக்கடி கேட்கப்படும் கேள்விகள்'}
           </h2>
 
-          <div className="space-y-6">
+          <MotionDiv className="space-y-6">
             {faqData[language].map((faq, index) => (
-              <div key={index} className="border border-gray-200 rounded-lg p-6">
+              <MotionDiv key={index} className="border border-gray-200 rounded-lg p-6">
                 <h3 className="text-lg font-semibold text-gray-800 mb-3">
                   {faq.question}
                 </h3>
                 <p className="text-gray-600 leading-relaxed">
                   {faq.answer}
                 </p>
-              </div>
+              </MotionDiv>
             ))}
-          </div>
-        </div>
-      </div>
-    </div>
+          </MotionDiv>
+        </MotionDiv>
+      </MotionDiv>
+    </MotionDiv>
   );
 };
 

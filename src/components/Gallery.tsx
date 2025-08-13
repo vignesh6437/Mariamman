@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, ChevronLeft, ChevronRight, Calendar, Camera, Film, Download } from 'lucide-react';
+import MotionDiv from '../components/MotionDiv'; // Adjust the import path as necessary
 import kaliimagesiva from "../gallery/kaliimagesiva.jpg";
 import kaliimagesiva1 from "../gallery/kaliimagesiva1.jpg";
 import vino from "../gallery/Vino.jpeg";
@@ -121,21 +122,21 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-red-50 py-20">
-      <div className="max-w-7xl mx-auto px-4">
+    <MotionDiv className="min-h-screen bg-gradient-to-br from-amber-50 to-red-50 py-20">
+      <MotionDiv className="max-w-7xl mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-16">
+        <MotionDiv className="text-center mb-16">
           <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-red-800 to-yellow-600 bg-clip-text text-transparent mb-4">
             {content[language].title}
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             {content[language].subtitle}
           </p>
-        </div>
+        </MotionDiv>
 
         {/* Category Filter */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-          <div className="flex flex-wrap justify-center gap-4">
+        <MotionDiv className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+          <MotionDiv className="flex flex-wrap justify-center gap-4">
             {content[language].categories.map((category) => (
               <button
                 key={category.id}
@@ -160,18 +161,18 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
                 </span>
               </button>
             ))}
-          </div>
-        </div>
+          </MotionDiv>
+        </MotionDiv>
 
         {/* Gallery Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <MotionDiv className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredImages.map((image, index) => (
-            <div
+            <MotionDiv
               key={image.id}
               className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:scale-105 cursor-pointer"
               onClick={() => openLightbox(image, index)}
             >
-              <div className="relative overflow-hidden">
+              <MotionDiv className="relative overflow-hidden">
                 {image.type === 'image' ? (
                   <img
                     src={image.src}
@@ -188,27 +189,27 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
                     preload="metadata"
                   />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4">
+                <MotionDiv className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <MotionDiv className="absolute bottom-4 left-4 right-4">
                     <h3 className="text-white font-bold text-lg mb-2">{image.title}</h3>
                     <p className="text-white/80 text-sm">{formatDate(image.date)}</p>
-                  </div>
-                </div>
+                  </MotionDiv>
+                </MotionDiv>
                 
                 {/* Category Badge */}
-                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-gray-700">
+                <MotionDiv className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-gray-700">
                   {content[language].categories.find(cat => cat.id === image.category)?.name}
-                </div>
-              </div>
+                </MotionDiv>
+              </MotionDiv>
               
-              <div className="p-6">
+              <MotionDiv className="p-6">
                 <h3 className="text-xl font-bold text-gray-800 mb-2 group-hover:text-red-600 transition-colors">
                   {image.title}
                 </h3>
                 <p className="text-gray-600 text-sm leading-relaxed">
                   {image.description}
                 </p>
-                <div className="flex justify-between items-center mt-4">
+                <MotionDiv className="flex justify-between items-center mt-4">
                   <span className="text-sm text-gray-500 flex items-center">
                     <Calendar className="h-4 w-4 mr-1" />
                     {formatDate(image.date)}
@@ -216,44 +217,44 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
                   <button className="text-red-600 hover:text-red-700 transition-colors">
                     <Download className="h-4 w-4" />
                   </button>
-                </div>
-              </div>
-            </div>
+                </MotionDiv>
+              </MotionDiv>
+            </MotionDiv>
           ))}
-        </div>
+        </MotionDiv>
 
         {/* Stats */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 mt-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-3xl font-bold text-red-600 mb-2">{galleryImages.length}</div>
-              <div className="text-gray-600">{language === 'english' ? 'Total Photos' : 'மொத்த புகைப்படங்கள்'}</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-yellow-600 mb-2">
+        <MotionDiv className="bg-white rounded-2xl shadow-lg p-8 mt-12">
+          <MotionDiv className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <MotionDiv>
+              <MotionDiv className="text-3xl font-bold text-red-600 mb-2">{galleryImages.length}</MotionDiv>
+              <MotionDiv className="text-gray-600">{language === 'english' ? 'Total Photos' : 'மொத்த புகைப்படங்கள்'}</MotionDiv>
+            </MotionDiv>
+            <MotionDiv>
+              <MotionDiv className="text-3xl font-bold text-yellow-600 mb-2">
                 {galleryImages.filter(img => img.category === 'festivals').length}
-              </div>
-              <div className="text-gray-600">{language === 'english' ? 'Festival Photos' : 'திருவிழா புகைப்படங்கள்'}</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-green-600 mb-2">
+              </MotionDiv>
+              <MotionDiv className="text-gray-600">{language === 'english' ? 'Festival Photos' : 'திருவிழா புகைப்படங்கள்'}</MotionDiv>
+            </MotionDiv>
+            <MotionDiv>
+              <MotionDiv className="text-3xl font-bold text-green-600 mb-2">
                 {galleryImages.filter(img => img.category === 'daily').length}
-              </div>
-              <div className="text-gray-600">{language === 'english' ? 'Daily Rituals' : 'தினசரி சடங்குகள்'}</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-blue-600 mb-2">
+              </MotionDiv>
+              <MotionDiv className="text-gray-600">{language === 'english' ? 'Daily Rituals' : 'தினசரி சடங்குகள்'}</MotionDiv>
+            </MotionDiv>
+            <MotionDiv>
+              <MotionDiv className="text-3xl font-bold text-blue-600 mb-2">
                 {galleryImages.filter(img => img.category === 'decorations').length}
-              </div>
-              <div className="text-gray-600">{language === 'english' ? 'Decorations' : 'அலங்காரங்கள்'}</div>
-            </div>
-          </div>
-        </div>
+              </MotionDiv>
+              <MotionDiv className="text-gray-600">{language === 'english' ? 'Decorations' : 'அலங்காரங்கள்'}</MotionDiv>
+            </MotionDiv>
+          </MotionDiv>
+        </MotionDiv>
 
         {/* Lightbox */}
         {lightboxImage && (
-          <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
-            <div className="relative max-w-5xl w-full">
+          <MotionDiv className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+            <MotionDiv className="relative max-w-5xl w-full">
               {/* Close Button */}
               <button
                 onClick={closeLightbox}
@@ -278,7 +279,7 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
               </button>
 
               {/* Image or Video */}
-              <div className="bg-white rounded-2xl overflow-hidden shadow-2xl">
+              <MotionDiv className="bg-white rounded-2xl overflow-hidden shadow-2xl">
                 {lightboxImage.type === 'image' ? (
                   <img
                     src={lightboxImage.src}
@@ -297,20 +298,20 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
                 )}
 
                 {/* Info */}
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
+                <MotionDiv className="p-6">
+                  <MotionDiv className="flex justify-between items-start mb-4">
+                    <MotionDiv>
                       <h3 className="text-2xl font-bold text-gray-800 mb-2">
                         {lightboxImage.title}
                       </h3>
                       <p className="text-gray-600">{lightboxImage.description}</p>
-                    </div>
+                    </MotionDiv>
                     <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
                       {content[language].categories.find(cat => cat.id === lightboxImage.category)?.name}
                     </span>
-                  </div>
+                  </MotionDiv>
                   
-                  <div className="flex justify-between items-center text-sm text-gray-500">
+                  <MotionDiv className="flex justify-between items-center text-sm text-gray-500">
                     <span className="flex items-center">
                       <Calendar className="h-4 w-4 mr-2" />
                       {formatDate(lightboxImage.date)}
@@ -318,14 +319,14 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
                     <span>
                       {currentImageIndex + 1} of {filteredImages.length}
                     </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                  </MotionDiv>
+                </MotionDiv>
+              </MotionDiv>
+            </MotionDiv>
+          </MotionDiv>
         )}
-      </div>
-    </div>
+      </MotionDiv>
+    </MotionDiv>
   );
 };
 
