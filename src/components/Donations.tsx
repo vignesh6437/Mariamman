@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Heart, CreditCard, Smartphone, Building, TrendingUp, Users, Target, Download, CheckCircle } from 'lucide-react';
 import { db } from '../DB/firebase'; // Adjust the import path as necessary
 import { collection, addDoc, query, orderBy, limit, getDocs, serverTimestamp } from 'firebase/firestore';
-
+import { motion } from 'framer-motion';
 interface DonationsProps {
   language: string;
 }
@@ -165,58 +165,100 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
     }).format(amount);
   };
 
+
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 to-red-50 py-20">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-16">
+        <motion.div 
+        className="text-center mb-16"
+         initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}>
           <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-red-800 to-yellow-600 bg-clip-text text-transparent mb-4">
             {content[language].title}
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             {content[language].subtitle}
           </p>
-        </div>
+        </motion.div>
 
         {/* Donation Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          <div className="bg-white rounded-2xl shadow-lg p-6 text-center">
+          <motion.div  className="bg-white rounded-2xl shadow-lg p-6 text-center"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}>
             <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <TrendingUp className="h-6 w-6 text-green-600" />
             </div>
             <div className="text-2xl font-bold text-green-600 mb-1">₹25L+</div>
             <div className="text-sm text-gray-600">{language === 'english' ? 'Total Raised' : 'மொத்த நன்கொடை'}</div>
-          </div>
+          </motion.div >
 
-          <div className="bg-white rounded-2xl shadow-lg p-6 text-center">
+          <motion.div  className="bg-white rounded-2xl shadow-lg p-6 text-center"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}>
             <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Users className="h-6 w-6 text-blue-600" />
             </div>
             <div className="text-2xl font-bold text-blue-600 mb-1">4,500+</div>
             <div className="text-sm text-gray-600">{language === 'english' ? 'Donors' : 'நன்கொடையாளர்கள்'}</div>
-          </div>
+           </motion.div >
 
-          <div className="bg-white rounded-2xl shadow-lg p-6 text-center">
+
+         <motion.div  className="bg-white rounded-2xl shadow-lg p-6 text-center"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}>
             <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Target className="h-6 w-6 text-orange-600" />
             </div>
             <div className="text-2xl font-bold text-orange-600 mb-1">8</div>
             <div className="text-sm text-gray-600">{language === 'english' ? 'Active Campaigns' : 'செயலில் உள்ள பிரச்சாரங்கள்'}</div>
-          </div>
+           </motion.div >
 
-          <div className="bg-white rounded-2xl shadow-lg p-6 text-center">
+
+         <motion.div  className="bg-white rounded-2xl shadow-lg p-6 text-center"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}>
             <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Heart className="h-6 w-6 text-purple-600" />
             </div>
             <div className="text-2xl font-bold text-purple-600 mb-1">95%</div>
             <div className="text-sm text-gray-600">{language === 'english' ? 'Transparency' : 'வெளிப்படைத்தன்மை'}</div>
-          </div>
+           </motion.div >
+
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <motion.div className="grid lg:grid-cols-3 gap-8"
+        initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}>
           {/* Donation Form */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-xl p-8">
+          <motion.div className="lg:col-span-2"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}>
+            <motion.div className="bg-white rounded-2xl shadow-xl p-8"
+            initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}>
               <h2 className="text-2xl font-bold text-gray-800 mb-8">
                 {language === 'english' ? 'Make a Donation' : 'நன்கொடை வழங்கவும்'}
               </h2>
@@ -328,8 +370,8 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
                   }
                 </p>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Campaign Progress */}
           <div className="space-y-6">
@@ -399,7 +441,7 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
               </p>
             </div>
           </div>
-        </div>
+       </motion.div>
 
         {/* Thank You Modal */}
         {showThankYou && (
