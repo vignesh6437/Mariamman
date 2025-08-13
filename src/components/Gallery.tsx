@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { X, ChevronLeft, ChevronRight, Calendar, Camera, Film, Download } from 'lucide-react';
-import MotionDiv from '../components/MotionDiv'; // Adjust the import path as necessary
 import kaliimagesiva from "../gallery/kaliimagesiva.jpg";
 import kaliimagesiva1 from "../gallery/kaliimagesiva1.jpg";
 import vino from "../gallery/Vino.jpeg";
@@ -45,7 +44,7 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
       type: 'image',
       title: language === 'english' ? 'Thillai Kali - 2025' : 'காலை பூஜை சடங்கு',
       category: 'festivals',
-      date: '2024-02-15',
+      date: '2025-08-21',
       description: language === 'english' ? 'Sacred night prayers at the temple' : 'கோவிலில் புனித காலை பிரார்த்தனைகள்'
     },
     {
@@ -54,16 +53,16 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
       type: 'image',
       title: language === 'english' ? 'Amman' : 'மாரியம்மன் திருவிழா கொண்டாட்டம்',
       category: 'festivals',
-      date: '2024-01-20',
+      date: '2022-08-21',
       description: language === 'english' ? 'Grand celebration with devotees' : 'பக்தர்களுடன் பெரிய கொண்டாட்டம்'
     },
     {
       id: 3,
       src: Rajebdranvideo, // sample mp4 video URL
       type: 'video',
-      title: language === 'english' ? 'Thillai Kali-2008' : 'கோவில் கட்டிடக்கலை வீடியோ',
+      title: language === 'english' ? 'Thillai Kali-2013' : 'கோவில் கட்டிடக்கலை வீடியோ',
       category: 'video',
-      date: '2024-02-10',
+      date: '2013-08-19',
       description: language === 'english' ? 'Beautiful traditional architecture' : 'அழகிய பாரம்பரிய கட்டிடக்கலை'
     },
     {
@@ -72,7 +71,7 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
       type: 'video',
       title: language === 'english' ? 'Kali -2025' : 'பக்தர் பிரார்த்தனைகள் வீடியோ',
       category: 'video',
-      date: '2024-02-12',
+      date: '2025-08-21',
       description: language === 'english' ? 'Devotees in prayer and meditation' : 'பிரார்த்தனை மற்றும் தியானத்தில் பக்தர்கள்'
     },
     {
@@ -81,7 +80,7 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
       type: 'image',
       title: language === 'english' ? 'Amman' : 'பூ அலங்காரங்கள்',
       category: 'decorations',
-      date: '2024-02-08',
+      date: '2022-08-21',
       description: language === 'english' ? 'Intricate flower arrangements for the deity' : 'தெய்வத்திற்கான நுணுக்கமான பூ ஏற்பாடுகள்'
     },
    
@@ -122,21 +121,21 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
   };
 
   return (
-    <MotionDiv className="min-h-screen bg-gradient-to-br from-amber-50 to-red-50 py-20">
-      <MotionDiv className="max-w-7xl mx-auto px-4">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-red-50 py-20">
+      <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
-        <MotionDiv className="text-center mb-16">
+        <div className="text-center mb-16">
           <h1 className="text-4xl lg:text-5xl font-bold bg-gradient-to-r from-red-800 to-yellow-600 bg-clip-text text-transparent mb-4">
             {content[language].title}
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             {content[language].subtitle}
           </p>
-        </MotionDiv>
+        </div>
 
         {/* Category Filter */}
-        <MotionDiv className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-          <MotionDiv className="flex flex-wrap justify-center gap-4">
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+          <div className="flex flex-wrap justify-center gap-4">
             {content[language].categories.map((category) => (
               <button
                 key={category.id}
@@ -161,18 +160,18 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
                 </span>
               </button>
             ))}
-          </MotionDiv>
-        </MotionDiv>
+          </div>
+        </div>
 
         {/* Gallery Grid */}
-        <MotionDiv className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredImages.map((image, index) => (
-            <MotionDiv
+            <div
               key={image.id}
               className="group bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:scale-105 cursor-pointer"
               onClick={() => openLightbox(image, index)}
             >
-              <MotionDiv className="relative overflow-hidden">
+              <div className="relative overflow-hidden">
                 {image.type === 'image' ? (
                   <img
                     src={image.src}
@@ -189,27 +188,27 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
                     preload="metadata"
                   />
                 )}
-                <MotionDiv className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <MotionDiv className="absolute bottom-4 left-4 right-4">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 right-4">
                     <h3 className="text-white font-bold text-lg mb-2">{image.title}</h3>
                     <p className="text-white/80 text-sm">{formatDate(image.date)}</p>
-                  </MotionDiv>
-                </MotionDiv>
+                  </div>
+                </div>
                 
                 {/* Category Badge */}
-                <MotionDiv className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-gray-700">
+                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium text-gray-700">
                   {content[language].categories.find(cat => cat.id === image.category)?.name}
-                </MotionDiv>
-              </MotionDiv>
+                </div>
+              </div>
               
-              <MotionDiv className="p-6">
+              <div className="p-6">
                 <h3 className="text-xl font-bold text-gray-800 mb-2 group-hover:text-red-600 transition-colors">
                   {image.title}
                 </h3>
                 <p className="text-gray-600 text-sm leading-relaxed">
                   {image.description}
                 </p>
-                <MotionDiv className="flex justify-between items-center mt-4">
+                <div className="flex justify-between items-center mt-4">
                   <span className="text-sm text-gray-500 flex items-center">
                     <Calendar className="h-4 w-4 mr-1" />
                     {formatDate(image.date)}
@@ -217,44 +216,44 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
                   <button className="text-red-600 hover:text-red-700 transition-colors">
                     <Download className="h-4 w-4" />
                   </button>
-                </MotionDiv>
-              </MotionDiv>
-            </MotionDiv>
+                </div>
+              </div>
+            </div>
           ))}
-        </MotionDiv>
+        </div>
 
         {/* Stats */}
-        <MotionDiv className="bg-white rounded-2xl shadow-lg p-8 mt-12">
-          <MotionDiv className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <MotionDiv>
-              <MotionDiv className="text-3xl font-bold text-red-600 mb-2">{galleryImages.length}</MotionDiv>
-              <MotionDiv className="text-gray-600">{language === 'english' ? 'Total Photos' : 'மொத்த புகைப்படங்கள்'}</MotionDiv>
-            </MotionDiv>
-            <MotionDiv>
-              <MotionDiv className="text-3xl font-bold text-yellow-600 mb-2">
+        <div className="bg-white rounded-2xl shadow-lg p-8 mt-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            <div>
+              <div className="text-3xl font-bold text-red-600 mb-2">{galleryImages.length}</div>
+              <div className="text-gray-600">{language === 'english' ? 'Total Photos' : 'மொத்த புகைப்படங்கள்'}</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-yellow-600 mb-2">
                 {galleryImages.filter(img => img.category === 'festivals').length}
-              </MotionDiv>
-              <MotionDiv className="text-gray-600">{language === 'english' ? 'Festival Photos' : 'திருவிழா புகைப்படங்கள்'}</MotionDiv>
-            </MotionDiv>
-            <MotionDiv>
-              <MotionDiv className="text-3xl font-bold text-green-600 mb-2">
+              </div>
+              <div className="text-gray-600">{language === 'english' ? 'Festival Photos' : 'திருவிழா புகைப்படங்கள்'}</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-green-600 mb-2">
                 {galleryImages.filter(img => img.category === 'daily').length}
-              </MotionDiv>
-              <MotionDiv className="text-gray-600">{language === 'english' ? 'Daily Rituals' : 'தினசரி சடங்குகள்'}</MotionDiv>
-            </MotionDiv>
-            <MotionDiv>
-              <MotionDiv className="text-3xl font-bold text-blue-600 mb-2">
+              </div>
+              <div className="text-gray-600">{language === 'english' ? 'Daily Rituals' : 'தினசரி சடங்குகள்'}</div>
+            </div>
+            <div>
+              <div className="text-3xl font-bold text-blue-600 mb-2">
                 {galleryImages.filter(img => img.category === 'decorations').length}
-              </MotionDiv>
-              <MotionDiv className="text-gray-600">{language === 'english' ? 'Decorations' : 'அலங்காரங்கள்'}</MotionDiv>
-            </MotionDiv>
-          </MotionDiv>
-        </MotionDiv>
+              </div>
+              <div className="text-gray-600">{language === 'english' ? 'Decorations' : 'அலங்காரங்கள்'}</div>
+            </div>
+          </div>
+        </div>
 
         {/* Lightbox */}
         {lightboxImage && (
-          <MotionDiv className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
-            <MotionDiv className="relative max-w-5xl w-full">
+          <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+            <div className="relative max-w-5xl w-full">
               {/* Close Button */}
               <button
                 onClick={closeLightbox}
@@ -279,7 +278,7 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
               </button>
 
               {/* Image or Video */}
-              <MotionDiv className="bg-white rounded-2xl overflow-hidden shadow-2xl">
+              <div className="bg-white rounded-2xl overflow-hidden shadow-2xl">
                 {lightboxImage.type === 'image' ? (
                   <img
                     src={lightboxImage.src}
@@ -298,20 +297,20 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
                 )}
 
                 {/* Info */}
-                <MotionDiv className="p-6">
-                  <MotionDiv className="flex justify-between items-start mb-4">
-                    <MotionDiv>
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
                       <h3 className="text-2xl font-bold text-gray-800 mb-2">
                         {lightboxImage.title}
                       </h3>
                       <p className="text-gray-600">{lightboxImage.description}</p>
-                    </MotionDiv>
+                    </div>
                     <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm">
                       {content[language].categories.find(cat => cat.id === lightboxImage.category)?.name}
                     </span>
-                  </MotionDiv>
+                  </div>
                   
-                  <MotionDiv className="flex justify-between items-center text-sm text-gray-500">
+                  <div className="flex justify-between items-center text-sm text-gray-500">
                     <span className="flex items-center">
                       <Calendar className="h-4 w-4 mr-2" />
                       {formatDate(lightboxImage.date)}
@@ -319,14 +318,14 @@ const Gallery: React.FC<GalleryProps> = ({ language }) => {
                     <span>
                       {currentImageIndex + 1} of {filteredImages.length}
                     </span>
-                  </MotionDiv>
-                </MotionDiv>
-              </MotionDiv>
-            </MotionDiv>
-          </MotionDiv>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
-      </MotionDiv>
-    </MotionDiv>
+      </div>
+    </div>
   );
 };
 
