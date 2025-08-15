@@ -1,32 +1,195 @@
 import React, { useState, useEffect } from 'react';
 import { Heart, CreditCard, Smartphone, Building, TrendingUp, Users, Target, Download, CheckCircle } from 'lucide-react';
-import { db } from '../DB/firebase'; // Adjust the import path as necessary
+import { db } from '../DB/firebase';
 import { collection, addDoc, query, orderBy, limit, getDocs, serverTimestamp } from 'firebase/firestore';
-import { motion } from 'framer-motion';
+
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 interface DonationsProps {
   language: string;
 }
-import MotionDiv from '../components/MotionDiv'; // Adjust the import path as necessary
+import MotionDiv from '../components/MotionDiv';
 
 const Donations: React.FC<DonationsProps> = ({ language }) => {
   const [activeCategory, setActiveCategory] = useState('general');
   const [donationAmount, setDonationAmount] = useState('');
+  const [totalamount, setTotalAmount] = useState(0);
+  const [totalDonor, setTotalDonors] = useState(0);
+
   const [customAmount, setCustomAmount] = useState('');
+
   const [showThankYou, setShowThankYou] = useState(false);
   const [recentDonations, setRecentDonations] = useState<any[]>([]);
-  const [donorName, setDonorName] = useState('');   // <-- Added Name state
+  const [donorName, setDonorName] = useState('');
+  const [campaigns, setCampaigns] = useState<any[]>([]); // <-- Added campaigns state
+  const [selectedDonation, setSelectedDonation] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+  const [showAllPopup, setShowAllPopup] = useState(false);
 
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isVerified, setIsVerified] = useState(false);
+
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
+  const [searchTerm, setSearchTerm] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
-    const fetchDonations = async () => {
-      const donationsRef = collection(db, "Mariamman");  // <-- Changed collection name
-      const q = query(donationsRef, orderBy("timestamp", "desc"), limit(5));
-      const snapshot = await getDocs(q);
-      const data = snapshot.docs.map(doc => doc.data());
-      setRecentDonations(data);
+  const fetchDonations = async () => {
+    const donationsRef = collection(db, "Mariamman");
+    const q = query(donationsRef, orderBy("timestamp", "desc"));
+    const snapshot = await getDocs(q);
+    const data = snapshot.docs.map(doc => doc.data());
+
+    // Filter only this year
+    const currentYear = new Date().getFullYear();
+    const thisYearData = data.filter(item => {
+      if (!item.timestamp?.toDate) return false;
+      return item.timestamp.toDate().getFullYear() === currentYear;
+    });
+
+    // Calculate total amount (handles string or number, ignores null)
+    const totalAmount = thisYearData.reduce((sum, item) => {
+      return sum + (parseInt(item.Amount, 10) || 0);
+    }, 0);
+
+    // Total donors (unique donor names if needed)
+    const totalDonors = thisYearData.length;
+
+    // Store results
+    setRecentDonations(thisYearData);
+    setTotalAmount(totalAmount);
+    setTotalDonors(totalDonors);
+  };
+
+  fetchDonations();
+}, [showThankYou]);
+
+
+  const handleShowDetails = (donation) => {
+    setSelectedDonation(donation);
+    setShowPopup(true);
+    setIsVerified(false);
+    setUsername('');
+    setPassword('');
+  };
+
+  const handleAllDetails = () => {
+    setShowAllPopup(true);
+    setIsVerified(false);
+    setUsername('');
+    setPassword('');
+    setFilteredData([]);
+    setFromDate(null);
+    setToDate(null);
+  };
+
+  const handleVerify = () => {
+    // Replace with real authentication check
+    if (username === 'admin' && password === '1234') {
+      setIsVerified(true);
+    } else {
+      alert('Invalid credentials');
+    }
+  };
+
+  const handleGenerate = () => {
+    if (!fromDate || !toDate) {
+      alert('Please select both dates');
+      return;
+    }
+
+    const filtered = recentDonations.filter((donation) => {
+      if (!donation.timestamp) return false;
+
+      // Convert Firestore timestamp to JS Date
+      const donationDate = donation.timestamp.toDate();
+
+      // Compare only the date part (ignore time)
+      const donationDay = new Date(
+        donationDate.getFullYear(),
+        donationDate.getMonth(),
+        donationDate.getDate()
+      );
+
+      const fromDay = new Date(
+        fromDate.getFullYear(),
+        fromDate.getMonth(),
+        fromDate.getDate()
+      );
+
+      const toDay = new Date(
+        toDate.getFullYear(),
+        toDate.getMonth(),
+        toDate.getDate()
+      );
+
+      return donationDay >= fromDay && donationDay <= toDay;
+    });
+
+    setFilteredData(filtered);
+  };
+
+
+
+
+  // Static campaign info (no raised/target/donors here)
+  const staticCampaigns = {
+    english: [
+      { id: 'general', title: 'General Donation', description: 'Support temple activities, maintenance, and community welfare' },
+      { id: 'annadhanam', title: 'Daily Annadhanam Program', description: 'Providing free meals to devotees and the needy' },
+      { id: 'maintenance', title: 'Gopuram Renovation', description: 'Restoring the ancient temple tower' },
+      { id: 'festivals', title: 'Annual Festival Celebration', description: 'Supporting grand festival arrangements' }
+    ],
+    tamil: [
+      { id: 'general', title: 'பொது நன்கொடை', description: 'கோவில் நடவடிக்கைகள், பராமரிப்பு மற்றும் சமூக நலத்திற்குப் பங்களிக்கவும்' },
+      { id: 'annadhanam', title: 'தினசரி அன்னதான திட்டம்', description: 'பக்தர்கள் மற்றும் ஏழைகளுக்கு இலவச உணவு வழங்குதல்' },
+      { id: 'maintenance', title: 'கோபுர புனரமைப்பு', description: 'பழமையான கோவில் கோபுரத்தை மீட்டமைத்தல்' },
+      { id: 'festivals', title: 'வருடாந்திர திருவிழா கொண்டாட்டம்', description: 'பெரிய திருவிழா ஏற்பாடுகளுக்கு ஆதரவு' }
+    ]
+  };
+
+  // Fetch campaign raised/donors dynamically
+  useEffect(() => {
+    const fetchCampaignData = async () => {
+      const campaignsWithData: any[] = [];
+      const currentYear = new Date().getFullYear();
+
+      for (const campaign of staticCampaigns[language]) {
+        const donationsRef = collection(db, "Mariamman");
+        const q = query(donationsRef, orderBy("timestamp", "desc"));
+        const snapshot = await getDocs(q);
+
+        let totalAmount = 0;
+        let donorSet = new Set();
+
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const ts = data.timestamp?.toDate ? data.timestamp.toDate() : null;
+
+          if (
+            ts &&
+            ts.getFullYear() === currentYear &&
+            (data.Category || "").toLowerCase() === campaign.id.toLowerCase()
+          ) {
+            totalAmount += Number(data.Amount || 0);
+            donorSet.add(data.Name || "Anonymous");
+          }
+        });
+
+        campaignsWithData.push({
+          ...campaign,
+          raised: totalAmount,
+          donors: donorSet.size
+        });
+      }
+
+      setCampaigns(campaignsWithData);
     };
-    fetchDonations();
-  }, []);
+
+    fetchCampaignData();
+  }, [showThankYou]);
 
   const handleDonation = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,9 +200,9 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
     }
     if (amount) {
       try {
-        await addDoc(collection(db, "Mariamman"), {   // <-- Changed collection name
+        await addDoc(collection(db, "Mariamman"), {
           Category: activeCategory,
-          Amount: String(amount),  // Stored as string to match your structure
+          Amount: String(amount),
           Name: donorName,
           timestamp: serverTimestamp()
         });
@@ -47,13 +210,11 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
         setShowThankYou(true);
         setTimeout(() => setShowThankYou(false), 5000);
 
-        // Refresh recent donations
         const donationsRef = collection(db, "Mariamman");
         const q = query(donationsRef, orderBy("timestamp", "desc"), limit(5));
         const snapshot = await getDocs(q);
         setRecentDonations(snapshot.docs.map(doc => doc.data()));
 
-        // Reset inputs
         setDonationAmount('');
         setCustomAmount('');
         setDonorName('');
@@ -62,8 +223,6 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
       }
     }
   };
-
-
 
   const content = {
     english: {
@@ -92,71 +251,6 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
     }
   };
 
-  const campaigns = {
-    english: [
-      {
-        id: 'annadhanam',
-        title: 'Daily Annadhanam Program',
-        description: 'Providing free meals to devotees and the needy',
-        raised: 850000,
-        target: 1200000,
-        donors: 2340
-      },
-      {
-        id: 'gopuram',
-        title: 'Gopuram Renovation',
-        description: 'Restoring the ancient temple tower',
-        raised: 1500000,
-        target: 2000000,
-        donors: 890
-      },
-      {
-        id: 'festival',
-        title: 'Annual Festival Celebration',
-        description: 'Supporting grand festival arrangements',
-        raised: 450000,
-        target: 600000,
-        donors: 1250
-      }
-    ],
-    tamil: [
-      {
-        id: 'annadhanam',
-        title: 'தினசரி அன்னதான திட்டம்',
-        description: 'பக்தர்கள் மற்றும் ஏழைகளுக்கு இலவச உணவு வழங்குதல்',
-        raised: 850000,
-        target: 1200000,
-        donors: 2340
-      },
-      {
-        id: 'gopuram',
-        title: 'கோபுர புனரமைப்பு',
-        description: 'பழமையான கோவில் கோபுரத்தை மீட்டமைத்தல்',
-        raised: 1500000,
-        target: 2000000,
-        donors: 890
-      },
-      {
-        id: 'festival',
-        title: 'வருடாந்திர திருவிழா கொண்டாட்டம்',
-        description: 'பெரிய திருவிழா ஏற்பாடுகளுக்கு ஆதரவு',
-        raised: 450000,
-        target: 600000,
-        donors: 1250
-      }
-    ]
-  };
-
-  // const handleDonation = (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   const amount = customAmount || donationAmount.replace('₹', '').replace(',', '');
-  //   if (amount) {
-  //     // Here you would integrate with payment gateway
-  //     setShowThankYou(true);
-  //     setTimeout(() => setShowThankYou(false), 5000);
-  //   }
-  // };
-
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-IN', {
       style: 'currency',
@@ -164,7 +258,6 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
       maximumFractionDigits: 0,
     }).format(amount);
   };
-
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 40 },
@@ -186,47 +279,49 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
 
         {/* Donation Stats */}
         <MotionDiv className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          <MotionDiv  className="bg-white rounded-2xl shadow-lg p-6 text-center"
->
+          <MotionDiv className="bg-white rounded-2xl shadow-lg p-6 text-center"
+          >
             <MotionDiv className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <TrendingUp className="h-6 w-6 text-green-600" />
             </MotionDiv>
-            <MotionDiv className="text-2xl font-bold text-green-600 mb-1">₹25L+</MotionDiv>
+            <MotionDiv className="text-2xl font-bold text-green-600 mb-1">₹{totalamount}</MotionDiv>
             <MotionDiv className="text-sm text-gray-600">{language === 'english' ? 'Total Raised' : 'மொத்த நன்கொடை'}</MotionDiv>
           </MotionDiv >
 
-          <MotionDiv  className="bg-white rounded-2xl shadow-lg p-6 text-center">
+          <MotionDiv className="bg-white rounded-2xl shadow-lg p-6 text-center">
             <MotionDiv className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Users className="h-6 w-6 text-blue-600" />
             </MotionDiv>
-            <MotionDiv className="text-2xl font-bold text-blue-600 mb-1">4,500+</MotionDiv>
+            <MotionDiv className="text-2xl font-bold text-blue-600 mb-1">{totalDonor}</MotionDiv>
             <MotionDiv className="text-sm text-gray-600">{language === 'english' ? 'Donors' : 'நன்கொடையாளர்கள்'}</MotionDiv>
-           </MotionDiv >
+          </MotionDiv >
 
 
-         <MotionDiv  className="bg-white rounded-2xl shadow-lg p-6 text-center"
+          <MotionDiv className="bg-white rounded-2xl shadow-lg p-6 text-center"
           >
             <MotionDiv className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Target className="h-6 w-6 text-orange-600" />
             </MotionDiv>
             <MotionDiv className="text-2xl font-bold text-orange-600 mb-1">8</MotionDiv>
             <MotionDiv className="text-sm text-gray-600">{language === 'english' ? 'Active Campaigns' : 'செயலில் உள்ள பிரச்சாரங்கள்'}</MotionDiv>
-           </MotionDiv >
+          </MotionDiv >
 
 
-         <MotionDiv  className="bg-white rounded-2xl shadow-lg p-6 text-center"
-      >
+          <MotionDiv className="bg-white rounded-2xl shadow-lg p-6 text-center"
+          >
             <MotionDiv className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Heart className="h-6 w-6 text-purple-600" />
             </MotionDiv>
             <MotionDiv className="text-2xl font-bold text-purple-600 mb-1">95%</MotionDiv>
             <MotionDiv className="text-sm text-gray-600">{language === 'english' ? 'Transparency' : 'வெளிப்படைத்தன்மை'}</MotionDiv>
-           </MotionDiv >
+          </MotionDiv >
 
         </MotionDiv>
+        {/* ... unchanged ... */}
 
         <MotionDiv className="grid lg:grid-cols-3 gap-8">
           {/* Donation Form */}
+          {/* ... unchanged form code ... */}
           <MotionDiv className="lg:col-span-2">
             <MotionDiv className="bg-white rounded-2xl shadow-xl p-8">
               <h2 className="text-2xl font-bold text-gray-800 mb-8">
@@ -342,7 +437,6 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
               </MotionDiv>
             </MotionDiv>
           </MotionDiv>
-
           {/* Campaign Progress */}
           <MotionDiv className="space-y-6">
             <MotionDiv className="bg-white rounded-2xl shadow-xl p-6">
@@ -350,8 +444,8 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
                 {language === 'english' ? 'Active Campaigns' : 'செயலில் உள்ள பிரச்சாரங்கள்'}
               </h3>
 
-              {campaigns[language].map((campaign) => {
-                const percentage = (campaign.raised / campaign.target) * 100;
+              {campaigns.map((campaign) => {
+                const percentage = campaign.raised > 0 ? 100 : 0; // no target now
                 return (
                   <MotionDiv key={campaign.id} className="mb-6 p-4 border border-gray-100 rounded-xl">
                     <h4 className="font-bold text-gray-800 mb-2">{campaign.title}</h4>
@@ -360,59 +454,264 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
                     <MotionDiv className="mb-3">
                       <MotionDiv className="flex justify-between text-sm mb-1">
                         <span>{formatCurrency(campaign.raised)}</span>
-                        <span className="text-gray-500">{formatCurrency(campaign.target)}</span>
+                        <span className="text-gray-500">{campaign.donors} {language === 'english' ? 'donors' : 'நன்கொடையாளர்கள்'}</span>
                       </MotionDiv>
                       <MotionDiv className="w-full bg-gray-200 rounded-full h-2">
                         <MotionDiv
                           className="bg-gradient-to-r from-red-500 to-yellow-400 h-2 rounded-full"
-                          style={{ width: `${Math.min(percentage, 100)}%` }}
+                          style={{ width: `${percentage}%` }}
                         />
                       </MotionDiv>
-                    </MotionDiv>
-
-                    <MotionDiv className="flex justify-between text-sm">
-                      <span className="text-green-600 font-medium">{percentage.toFixed(1)}% {language === 'english' ? 'funded' : 'நிதி'}</span>
-                      <span className="text-gray-600">{campaign.donors} {language === 'english' ? 'donors' : 'நன்கொடையாளர்கள்'}</span>
                     </MotionDiv>
                   </MotionDiv>
                 );
               })}
             </MotionDiv>
 
-            <MotionDiv className="bg-white rounded-2xl shadow-xl p-6 mt-6">
-              <h3 className="text-xl font-bold text-gray-800 mb-4">
-                {language === 'english' ? 'Recent Donations' : 'சமீபத்திய நன்கொடைகள்'}
-              </h3>
-              <MotionDiv className="space-y-3">
-                {recentDonations.length > 0 ? recentDonations.map((donation, index) => (
-                  <MotionDiv key={index} className="flex justify-between border-b pb-2 text-sm">
-                    <span className="font-medium">{donation.Name || donation.name || "Anonymous"}</span>
-                    <span>{formatCurrency(Number(donation.Amount || donation.amount || 0))}</span>
-                    <span className="italic text-gray-500">{donation.Category || donation.category}</span>
-                  </MotionDiv>
-                )) : (
+            {/* Recent Donations & Tax Benefits */}
+            <MotionDiv className="bg-white rounded-2xl shadow-xl p-6 mt-6" >
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-bold text-gray-800">
+                  {language === 'english' ? 'Recent Donations' : 'சமீபத்திய நன்கொடைகள்'}
+                </h3>
+                <button
+                  className="px-1 sm:px-2 py-1 rounded-lg font-medium transition-all duration-200 bg-gradient-to-r from-red-600 to-yellow-500 text-white shadow-lg"
+                  onClick={handleAllDetails}
+                >
+                  {language === 'english' ? 'All Details' : 'அனைத்து விவரங்கள்'}
+                </button>
+              </div>
+
+              <MotionDiv className="space-y-3" style={{ height: '183px', overflowY: 'scroll' }}>
+                {recentDonations.length > 0 ? (
+                  recentDonations.map((donation, index) => (
+                    <MotionDiv
+                      key={index}
+                      className="flex justify-between border-b pb-2 text-sm"
+                    >
+                      <span className="font-medium">{donation.Name || donation.name || 'Anonymous'}</span>
+                      <span className="italic text-gray-500">{donation.Category || donation.category}</span>
+                      <button
+                        className="text-blue-500 underline text-xs"
+                        onClick={() => handleShowDetails(donation)}
+                      >
+                        {language === 'english' ? 'Show Details' : 'விவரங்களை காண'}
+                      </button>
+                    </MotionDiv>
+                  ))
+                ) : (
                   <p className="text-gray-500 text-sm">
                     {language === 'english' ? 'No donations yet.' : 'இன்னும் நன்கொடைகள் இல்லை.'}
                   </p>
                 )}
               </MotionDiv>
+
+              {/* All Details Popup */}
+              {showAllPopup && (
+                <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-40 z-50">
+                  <div className="bg-white p-6 rounded-lg shadow-lg w-[500px]">
+                    {!isVerified ? (
+                      <>
+                        <h2 className="text-lg font-semibold mb-4">
+                          {language === 'english'
+                            ? 'Verify to See All Donation Details'
+                            : 'அனைத்து நன்கொடை விவரங்களை காண சரிபார்க்கவும்'}
+                        </h2>
+                        <input
+                          type="text"
+                          placeholder="Username"
+                          className="border p-2 w-full mb-3 rounded"
+                          value={username}
+                          onChange={(e) => setUsername(e.target.value)}
+                        />
+                        <input
+                          type="password"
+                          placeholder="Password"
+                          className="border p-2 w-full mb-3 rounded"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <div className="flex justify-end gap-2">
+                          <button
+                            className="bg-gray-300 px-3 py-1 rounded"
+                            onClick={() => setShowAllPopup(false)}
+                          >
+                            {language === 'english' ? 'Cancel' : 'ரத்து செய்'}
+                          </button>
+                          <button
+                            className="bg-blue-500 text-white px-3 py-1 rounded"
+                            onClick={handleVerify}
+                          >
+                            {language === 'english' ? 'Verify' : 'சரிபார்'}
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <h2 className="text-lg font-semibold mb-4">
+                          {language === 'english'
+                            ? 'Select Date Range'
+                            : 'தேதி வரம்பை தேர்வு செய்யவும்'}
+                        </h2>
+                        <div className="flex gap-2 mb-4">
+                          <DatePicker
+                            selected={fromDate}
+                            onChange={(date) => setFromDate(date)}
+                            dateFormat="dd/MM/yyyy"
+                            placeholderText={language === 'english' ? 'From Date' : 'தொடக்க தேதி'}
+                            className="border p-2 rounded w-full"
+                          />
+                          <DatePicker
+                            selected={toDate}
+                            onChange={(date) => setToDate(date)}
+                            dateFormat="dd/MM/yyyy"
+                            placeholderText={language === 'english' ? 'To Date' : 'முடிவு தேதி'}
+                            className="border p-2 rounded w-full"
+                          />
+                        </div>
+                        <div className="flex justify-end mb-4">
+                          <button
+                            className="bg-green-500 text-white px-3 py-1 rounded"
+                            onClick={handleGenerate}
+                          >
+                            {language === 'english' ? 'Generate' : 'உருவாக்கவும்'}
+                          </button>
+                        </div>
+
+                        {/* Search box */}
+                        {filteredData.length > 0 && (
+                          <input
+                            type="text"
+                            placeholder={language === 'english' ? 'Search...' : 'தேடுக...'}
+                            className="border p-2 rounded w-full mb-2"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                          />
+                        )}
+
+                        {/* Table with scroll */}
+                        {filteredData.length > 0 && (
+                          <div className="max-h-64 overflow-y-auto border rounded">
+                            <table className="w-full text-sm border-collapse">
+                              <thead className="bg-gray-100 sticky top-0">
+                                <tr>
+                                  <th className="border p-2">{language === 'english' ? 'Name' : 'பெயர்'}</th>
+                                  <th className="border p-2">{language === 'english' ? 'Amount' : 'தொகை'}</th>
+                                  <th className="border p-2">{language === 'english' ? 'Category' : 'வகை'}</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {filteredData
+                                  .filter((don) => {
+                                    const name = String(don.Name || don.name || 'Anonymous').toLowerCase();
+                                    const amount = String(don.Amount || don.amount || '');
+                                    const category = String(don.Category || don.category || '').toLowerCase();
+                                    const search = String(searchTerm || '').toLowerCase();
+
+                                    return (
+                                      name.includes(search) ||
+                                      amount.includes(search) ||
+                                      category.includes(search)
+                                    );
+                                  })
+                                  .map((don, idx) => (
+                                    <tr key={idx}>
+                                      <td className="border p-2">{don.Name || don.name || 'Anonymous'}</td>
+                                      <td className="border p-2">
+                                        {formatCurrency(Number(don.Amount || don.amount || 0))}
+                                      </td>
+                                      <td className="border p-2">{don.Category || don.category || ''}</td>
+                                    </tr>
+                                  ))}
+                              </tbody>
+
+                            </table>
+                          </div>
+                        )}
+
+                        {filteredData.length === 0 && fromDate && toDate && (
+                          <p className="text-gray-500 text-sm">
+                            {language === 'english' ? 'No records found.' : 'பதிவுகள் இல்லை.'}
+                          </p>
+                        )}
+
+                        <div className="flex justify-end mt-4">
+                          <button
+                            className="bg-blue-500 text-white px-3 py-1 rounded"
+                            onClick={() => setShowAllPopup(false)}
+                          >
+                            {language === 'english' ? 'Close' : 'மூடு'}
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
+
             </MotionDiv>
 
-            <MotionDiv className="bg-gradient-to-br from-red-100 to-yellow-100 rounded-2xl p-6 text-center">
-              <Download className="h-8 w-8 text-red-600 mx-auto mb-3" />
-              <h4 className="font-bold text-gray-800 mb-2">
-                {language === 'english' ? 'Tax Benefits' : 'வரி சலுகைகள்'}
-              </h4>
-              <p className="text-sm text-gray-600">
-                {language === 'english'
-                  ? 'All donations are eligible for 80G tax deduction under Income Tax Act'
-                  : 'அனைத்து நன்கொடைகளும் வருமான வரிச் சட்டத்தின் கீழ் 80G வரி விலக்குக்கு தகுதியானவை'
-                }
-              </p>
-            </MotionDiv>
+            {/* ... unchanged ... */}
           </MotionDiv>
         </MotionDiv>
+        {showPopup && (
+          <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-40 z-50">
+            <div className="bg-white p-6 rounded-lg shadow-lg w-80">
+              <h2 className="text-lg font-semibold mb-4">
+                {language === 'english' ? 'Verify to See Amount' : 'தொகையை காண சரிபார்க்கவும்'}
+              </h2>
 
+              {!isVerified ? (
+                <>
+                  <input
+                    type="text"
+                    placeholder="Username"
+                    className="border p-2 w-full mb-3 rounded"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    className="border p-2 w-full mb-3 rounded"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                  <div className="flex justify-end gap-2">
+                    <button
+                      className="bg-gray-300 px-3 py-1 rounded"
+                      onClick={() => setShowPopup(false)}
+                    >
+                      {language === 'english' ? 'Cancel' : 'ரத்து செய்'}
+                    </button>
+                    <button
+                      className="bg-blue-500 text-white px-3 py-1 rounded"
+                      onClick={handleVerify}
+                    >
+                      {language === 'english' ? 'Verify' : 'சரிபார்'}
+                    </button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p className="mb-4">
+                    {language === 'english'
+                      ? `Donation Amount: ${formatCurrency(Number(selectedDonation.Amount || selectedDonation.amount || 0))}`
+                      : `நன்கொடை தொகை: ${formatCurrency(Number(selectedDonation.Amount || selectedDonation.amount || 0))}`}
+                  </p>
+                  <div className="flex justify-end">
+                    <button
+                      className="bg-blue-500 text-white px-3 py-1 rounded"
+                      onClick={() => setShowPopup(false)}
+                    >
+                      {language === 'english' ? 'Close' : 'மூடு'}
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        )}
         {/* Thank You Modal */}
         {showThankYou && (
           <MotionDiv className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
