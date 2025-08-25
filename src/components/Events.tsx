@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { Calendar as CalendarIcon, Clock, MapPin, Users, ChevronLeft, ChevronRight, Filter, Plus } from 'lucide-react';
-
+import { db } from '../DB/firebase';
+import { collection, addDoc, query, orderBy, limit, getDocs, serverTimestamp } from 'firebase/firestore';
 interface EventsProps {
   language: string;
 }
@@ -10,6 +11,7 @@ const Events: React.FC<EventsProps> = ({ language }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [filterCategory, setFilterCategory] = useState('all');
   const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [events, setEvents] = useState([]);
 
   const content = {
     english: {
@@ -40,59 +42,86 @@ const Events: React.FC<EventsProps> = ({ language }) => {
     }
   };
 
-  const events = [
-    {
-      id: 1,
-      title: language === 'english' ? 'Mariamman Thiruvizha' : 'மாரியம்மன் திருவிழா',
-      date: '2024-03-15',
-      time: '06:00 AM - 10:00 PM',
-      category: 'festivals',
-      description: language === 'english' ? 'Grand annual festival with cultural programs' : 'கலாச்சார நிகழ்ச்சிகளுடன் பெரிய வருடாந்திர திருவிழா',
-      location: language === 'english' ? 'Temple Premises' : 'கோவில் வளாகம்',
-      attendees: 5000,
-      featured: true
-    },
-    {
-      id: 2,
-      title: language === 'english' ? 'Aadi Pooram Celebration' : 'ஆடி பூரம் கொண்டாட்டம்',
-      date: '2024-07-21',
-      time: '05:30 AM - 12:00 PM',
-      category: 'festivals',
-      description: language === 'english' ? 'Special celebration during Aadi month' : 'ஆடி மாத சிறப்பு கொண்டாட்டம்',
-      location: language === 'english' ? 'Main Temple Hall' : 'முதன்மை கோவில் அரங்கம்',
-      attendees: 2000
-    },
-    {
-      id: 3,
-      title: language === 'english' ? 'Weekly Abhishekam' : 'வாராந்திர அபிஷேகம்',
-      date: '2024-02-18',
-      time: '07:00 AM - 09:00 AM',
-      category: 'poojas',
-      description: language === 'english' ? 'Sacred bathing ceremony for the deity' : 'தெய்வத்திற்கான புனித குளியல் சடங்கு',
-      location: language === 'english' ? 'Sanctum Sanctorum' : 'கருவறை',
-      attendees: 300
-    },
-    {
-      id: 4,
-      title: language === 'english' ? 'Monthly Annadhanam' : 'மாதாந்திர அன்னதானம்',
-      date: '2024-02-25',
-      time: '12:00 PM - 03:00 PM',
-      category: 'community',
-      description: language === 'english' ? 'Free food distribution for devotees' : 'பக்தர்களுக்கு இலவச உணவு விநியோகம்',
-      location: language === 'english' ? 'Community Hall' : 'சமூக அரங்கம்',
-      attendees: 1500
-    },
-    {
-      id: 5,
-      title: language === 'english' ? 'Tamil New Year Celebration' : 'தமிழ் புத்தாண்டு கொண்டாட்டம்',
-      date: '2024-04-14',
-      time: '06:00 AM - 08:00 PM',
-      category: 'cultural',
-      description: language === 'english' ? 'Traditional Tamil New Year festivities' : 'பாரம்பரிய தமிழ் புத்தாண்டு கொண்டாட்டங்கள்',
-      location: language === 'english' ? 'Temple Complex' : 'கோவில் வளாகம்',
-      attendees: 3000
-    }
-  ];
+async function fetchEvents() {
+  const querySnapshot = await getDocs(collection(db, "festivals"));
+
+  const eventsData = querySnapshot.docs.map((doc, index) => {
+    const data = doc.data();
+
+    return {
+      id: doc.id || index + 1,
+      title: language === "english" ? data.title : data.title,
+      date: data.date,
+      time: data.time,
+      category: data.category,
+      description:
+        language === "english" ? data.description : data.description,
+      location:
+        language === "english" ? data.location : data.location,
+      attendees: data.attendees,
+      featured: true,
+    };
+  });
+  setEvents(eventsData);
+}
+
+useEffect(() => {
+
+    fetchEvents();
+  }, [language]);
+  // const events = [
+  //   {
+  //     id: 1,
+  //     title: language === 'english' ? 'Mariamman Thiruvizha' : 'மாரியம்மன் திருவிழா',
+  //     date: '2024-03-15',
+  //     time: '06:00 AM - 10:00 PM',
+  //     category: 'festivals',
+  //     description: language === 'english' ? 'Grand annual festival with cultural programs' : 'கலாச்சார நிகழ்ச்சிகளுடன் பெரிய வருடாந்திர திருவிழா',
+  //     location: language === 'english' ? 'Temple Premises' : 'கோவில் வளாகம்',
+  //     attendees: 5000,
+  //     featured: true
+  //   },
+  //   {
+  //     id: 2,
+  //     title: language === 'english' ? 'Aadi Pooram Celebration' : 'ஆடி பூரம் கொண்டாட்டம்',
+  //     date: '2024-07-21',
+  //     time: '05:30 AM - 12:00 PM',
+  //     category: 'festivals',
+  //     description: language === 'english' ? 'Special celebration during Aadi month' : 'ஆடி மாத சிறப்பு கொண்டாட்டம்',
+  //     location: language === 'english' ? 'Main Temple Hall' : 'முதன்மை கோவில் அரங்கம்',
+  //     attendees: 2000
+  //   },
+  //   {
+  //     id: 3,
+  //     title: language === 'english' ? 'Weekly Abhishekam' : 'வாராந்திர அபிஷேகம்',
+  //     date: '2024-02-18',
+  //     time: '07:00 AM - 09:00 AM',
+  //     category: 'poojas',
+  //     description: language === 'english' ? 'Sacred bathing ceremony for the deity' : 'தெய்வத்திற்கான புனித குளியல் சடங்கு',
+  //     location: language === 'english' ? 'Sanctum Sanctorum' : 'கருவறை',
+  //     attendees: 300
+  //   },
+  //   {
+  //     id: 4,
+  //     title: language === 'english' ? 'Monthly Annadhanam' : 'மாதாந்திர அன்னதானம்',
+  //     date: '2024-02-25',
+  //     time: '12:00 PM - 03:00 PM',
+  //     category: 'community',
+  //     description: language === 'english' ? 'Free food distribution for devotees' : 'பக்தர்களுக்கு இலவச உணவு விநியோகம்',
+  //     location: language === 'english' ? 'Community Hall' : 'சமூக அரங்கம்',
+  //     attendees: 1500
+  //   },
+  //   {
+  //     id: 5,
+  //     title: language === 'english' ? 'Tamil New Year Celebration' : 'தமிழ் புத்தாண்டு கொண்டாட்டம்',
+  //     date: '2024-04-14',
+  //     time: '06:00 AM - 08:00 PM',
+  //     category: 'cultural',
+  //     description: language === 'english' ? 'Traditional Tamil New Year festivities' : 'பாரம்பரிய தமிழ் புத்தாண்டு கொண்டாட்டங்கள்',
+  //     location: language === 'english' ? 'Temple Complex' : 'கோவில் வளாகம்',
+  //     attendees: 3000
+  //   }
+  // ];
 
   const getEventsForMonth = (month: Date) => {
     return events.filter(event => {

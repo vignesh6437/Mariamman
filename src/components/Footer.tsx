@@ -30,7 +30,7 @@ const Footer: React.FC<FooterProps> = ({ language, setCurrentPage }) => {
       contact: {
         title: 'Contact Information',
         address: '77/24, Nethaji St, Chidambaram, Tamil Nadu 608001',
-        phone: '+91 98765 43210',
+        phone: '+91 86670 66023',
         email: 'info@mariammantemple.org',
         timings: 'Daily: 11:00 AM - 7:00 PM'
       },
@@ -61,7 +61,7 @@ const Footer: React.FC<FooterProps> = ({ language, setCurrentPage }) => {
       contact: {
         title: 'தொடர்பு தகவல்',
         address: '77/24, நேதாஜி தெரு, சிதம்பரம், தமிழ்நாடு 608001',
-        phone: '+91 98765 43210',
+        phone: '+91 8667066023',
         email: 'info@mariammantemple.org',
         timings: 'தினமும்: காலை 7:00 - இரவு 11:00'
       },
@@ -73,7 +73,7 @@ const Footer: React.FC<FooterProps> = ({ language, setCurrentPage }) => {
           { name: 'YouTube', icon: Youtube, url: '#' }
         ]
       },
-      copyright: '© 2024 அருள்மிகு மாரியம்மன் கோவில். அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.',
+      copyright: '© 2024 ஸ்ரீ செல்வ மாரியம்மன் கோயில். அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.',
       developedBy: 'டிஜிட்டல் தரிசனத்திற்காக பக்தியுடன் உருவாக்கப்பட்டது'
     }
   };

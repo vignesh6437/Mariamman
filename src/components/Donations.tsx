@@ -14,8 +14,10 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
   const [activeCategory, setActiveCategory] = useState('general');
   const [donationAmount, setDonationAmount] = useState('');
   const [totalamount, setTotalAmount] = useState(0);
+  const [active, setactive] = useState(8);
+  const [Transparency, setTransparency] = useState(95);
   const [totalDonor, setTotalDonors] = useState(0);
-
+ 
   const [customAmount, setCustomAmount] = useState('');
 
   const [showThankYou, setShowThankYou] = useState(false);
@@ -34,6 +36,10 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
   const [toDate, setToDate] = useState(null);
   const [searchTerm, setSearchTerm] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+ const [animatedTotal, setAnimatedTotal] = useState(0);
+  const [animateddonor, setanimateddonor] = useState(0);
+   const [animatedactive, setanimatedactive] = useState(0);
+   const [animatedTransparency, setanimatedTransparency] = useState(0);
 
   useEffect(() => {
   const fetchDonations = async () => {
@@ -65,6 +71,31 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
 
   fetchDonations();
 }, [showThankYou]);
+
+useEffect(() => {
+  if (totalamount === 0) return;
+
+  //const end = totalamount;
+  const duration = 1500; // 1.5 sec
+  const startTime = Date.now();
+
+  const timer = setInterval(() => {
+    const elapsed = Date.now() - startTime;
+    const progress = Math.min(elapsed / duration, 1); // 0 → 1
+    //const value = Math.floor(progress * end);
+   
+    setAnimatedTotal(Math.floor(progress * totalamount));
+    setanimateddonor(Math.floor(progress * totalDonor));
+    setanimatedactive(Math.floor(progress * active));
+    setanimatedTransparency(Math.floor(progress * Transparency));
+
+    if (progress === 1) {
+      clearInterval(timer);
+    }
+  }, 16); // ~60fps
+
+  return () => clearInterval(timer);
+}, [totalamount]);
 
 
   const handleShowDetails = (donation) => {
@@ -284,7 +315,7 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
             <MotionDiv className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <TrendingUp className="h-6 w-6 text-green-600" />
             </MotionDiv>
-            <MotionDiv className="text-2xl font-bold text-green-600 mb-1">₹{totalamount}</MotionDiv>
+            <MotionDiv className="text-2xl font-bold text-green-600 mb-1">₹{animatedTotal}</MotionDiv>
             <MotionDiv className="text-sm text-gray-600">{language === 'english' ? 'Total Raised' : 'மொத்த நன்கொடை'}</MotionDiv>
           </MotionDiv >
 
@@ -292,7 +323,7 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
             <MotionDiv className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Users className="h-6 w-6 text-blue-600" />
             </MotionDiv>
-            <MotionDiv className="text-2xl font-bold text-blue-600 mb-1">{totalDonor}</MotionDiv>
+            <MotionDiv className="text-2xl font-bold text-blue-600 mb-1">{animateddonor}</MotionDiv>
             <MotionDiv className="text-sm text-gray-600">{language === 'english' ? 'Donors' : 'நன்கொடையாளர்கள்'}</MotionDiv>
           </MotionDiv >
 
@@ -302,7 +333,7 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
             <MotionDiv className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Target className="h-6 w-6 text-orange-600" />
             </MotionDiv>
-            <MotionDiv className="text-2xl font-bold text-orange-600 mb-1">8</MotionDiv>
+            <MotionDiv className="text-2xl font-bold text-orange-600 mb-1">{animatedactive}</MotionDiv>
             <MotionDiv className="text-sm text-gray-600">{language === 'english' ? 'Active Campaigns' : 'செயலில் உள்ள பிரச்சாரங்கள்'}</MotionDiv>
           </MotionDiv >
 
@@ -312,7 +343,7 @@ const Donations: React.FC<DonationsProps> = ({ language }) => {
             <MotionDiv className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Heart className="h-6 w-6 text-purple-600" />
             </MotionDiv>
-            <MotionDiv className="text-2xl font-bold text-purple-600 mb-1">95%</MotionDiv>
+            <MotionDiv className="text-2xl font-bold text-purple-600 mb-1">{animatedTransparency}%</MotionDiv>
             <MotionDiv className="text-sm text-gray-600">{language === 'english' ? 'Transparency' : 'வெளிப்படைத்தன்மை'}</MotionDiv>
           </MotionDiv >
 
